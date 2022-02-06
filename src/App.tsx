@@ -7,6 +7,11 @@ import {Routes,Route,Outlet,Navigate} from 'react-router-dom';
 import Qpaper from './routes/Question/Qpaper';
 import { Col, Container, Row } from 'react-bootstrap';
 import './navigator/Navigation.css'
+import Notes from './routes/Notes/Notes';
+import Paid from './routes/Paid/Paid'
+import Subjects from './routes/Subjects/Subjects';
+import Branches from './routes/Branches/Branches';
+import VideoClasses from './routes/Video/VideoClasses';
 
 function SideNav(){
 
@@ -18,7 +23,7 @@ return(
                       <Navigator />
                     </Col>
                     <Col  xs={10} id="page-content-wrapper">
-                       
+                       <Outlet/>
                     </Col> 
                 </Row>
 
@@ -31,15 +36,19 @@ return(
 
 function App() {
   return (
-    <>
+    <Container className='App'>
+    <SideNav/>
     <Routes>
-      <Route path='/*' element={<SideNav/>}>
+      
       <Route path='banner' element = {<Banner/>}/>
       <Route path='questionpapers' element = {<Qpaper/>}/> 
-      <Route path='*' element = {<Navigate to="banner"/>}/>
-      </Route>
+      <Route path='notes' element={<Notes/>}/>
+      <Route path = "paid" element={<Paid/>}/>
+      <Route path='subjects' element={<Subjects/>}/>
+      <Route path='branches' element={<Branches/>}/>
+      <Route path='video' element={<VideoClasses/>}/>
     </Routes>
-    </>
+    </Container>
   );
 }
 
