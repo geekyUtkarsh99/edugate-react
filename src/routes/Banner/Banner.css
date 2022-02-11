@@ -1,0 +1,29 @@
+.parent{
+display: flex;
+flex-direction: column;
+background: black;
+width: 100%;
+align-items: center;
+}
+
+
+.text{
+color: white;
+font-size: 48px;
+margin: 15px;
+padding: 24px;
+}
+
+.btn{
+    background: #011FA3;
+    color: white;
+    font-size: 24px;
+    padding-left: 35px;
+    padding-right: 35px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 10px;
+    border-style:ridge;
+    border-color: #011FA3;
+    margin: 12px;
+}
