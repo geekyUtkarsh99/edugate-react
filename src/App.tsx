@@ -39,8 +39,7 @@ function App() {
     <Container className='App'>
     <SideNav/>
     <Routes>
-      
-      <Route path='banner' element = {<Banner/>}/>
+       <Route path='/' element ={<Banner/>}/>
       <Route path='questionpapers' element = {<Qpaper/>}/> 
       <Route path='notes' element={<Notes/>}/>
       <Route path = "paid" element={<Paid/>}/>

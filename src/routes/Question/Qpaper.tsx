@@ -7,7 +7,7 @@ export default class Qpaper extends React.Component{
 
     render(){
 
-return(<div>
+return(<div className="box">
 
 <h1>question papers upload</h1>
 
