@@ -38,7 +38,19 @@ function App() {
   return (
     <Container className='App'>
     <SideNav/>
+    {/* <Navigator/> */}
     <Routes>
+      {/* <Route path='/*' element={<><Navigator /></>}>
+      <Route path='banner' element ={<Banner/>}/>
+      <Route path='questionpapers' element = {<Qpaper/>}/> 
+      <Route path='notes' element={<Notes/>}/>
+      <Route path = "paid" element={<Paid/>}/>
+      <Route path='subjects' element={<Subjects/>}/>
+      <Route path='branches' element={<Branches/>}/>
+      <Route path='video' element={<VideoClasses/>}/>
+      <Route path='*' element={<Banner/>}/>
+      </Route> */}
+
        <Route path='/' element ={<Banner/>}/>
       <Route path='questionpapers' element = {<Qpaper/>}/> 
       <Route path='notes' element={<Notes/>}/>
