@@ -1,11 +1,11 @@
-from flask import Flask
+from flask import Flask,render_template
 
-app = Flask(__name__,static_folder='./build')
+app = Flask(__name__,static_folder='../build',static_url_path='/')
 
 
 @app.route('/')
-def hello_world():  # put application's code here
-    return 'Hello World!'
+def init():  # put application's code here
+    return app.send_static_file('index.html')
 
 
 if __name__ == '__main__':
