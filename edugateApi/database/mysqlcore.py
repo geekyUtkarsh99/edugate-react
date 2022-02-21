@@ -4,7 +4,7 @@ import string
 
 # import flaskext.mysql as mysql
 # import mysql.connector as connector
-password = 'edugate@digitalinclined'
+password = 'edugate@db'
 
 
 class dbHandler:
