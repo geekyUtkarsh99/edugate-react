@@ -21,7 +21,7 @@ class dbHandler:
             with conn.cursor() as curse:
                 # check if table exists
                 sql = """
-                SELECT count(*) FROM banners;
+                SHOW TABLES LIKE 'banners';
                 """
                 curse.execute(sql)
                 response = list(curse.fetchall())
