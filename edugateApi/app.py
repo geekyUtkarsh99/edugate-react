@@ -10,7 +10,7 @@ def init():  # put application's code here
     return app.send_static_file('index.html')
 
 
-@app.route('/addbanner', methods=['POST'])
+@app.route('/addbanner', methods=['POST','GET'])
 def add_banner():
     """
     {
