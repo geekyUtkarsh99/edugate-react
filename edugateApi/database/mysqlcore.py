@@ -11,12 +11,16 @@ class dbHandler:
     def __init__(self):
         self.connection = pymysql.connect(user="root", password=password, database="edugatedb", host="localhost")
 
+    def connect(self):
+        self.connection = pymysql.connect(user="root", password=password, database="edugatedb", host="localhost")
+
     @staticmethod
     def generate_banner_id():
         len = 8
         return "".join(random.choices(string.ascii_uppercase + string.digits, k=len))
 
     def store_banner(self, bannerblob):
+        self.connect()  # init database
         with self.connection as conn:
             with conn.cursor() as curse:
                 # check if table exists
@@ -36,9 +40,9 @@ class dbHandler:
                     sql = """
                     INSERT INTO banners VALUE(?,?);
                     """
-                    curse.execute(sql,(bannerblob,id))
+                    curse.execute(sql, (bannerblob, id))
                     return True
-                else :
+                else:
                     sql = """
                                        INSERT INTO banners VALUE(?,?);
                                        """
@@ -46,6 +50,7 @@ class dbHandler:
                     return True
 
     def get_banners(self):
+        self.connect()
         with self.connection as conn:
             with conn.cursor() as curse:
                 sql = """
@@ -55,7 +60,7 @@ class dbHandler:
                 response = list(curse.fetchall())
                 if response is None:
                     return response
-                else :
+                else:
                     sql = """
                     SELECT * FROM banners;
                     """
@@ -63,8 +68,6 @@ class dbHandler:
                     response = curse.fetchall()
                     data = []
                     for i in response:
-                         data.append({"banner":i[0],"banner_id":i[1]})
+                        data.append({"banner": i[0], "banner_id": i[1]})
 
                     return data
-
-
