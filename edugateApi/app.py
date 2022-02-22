@@ -12,7 +12,12 @@ def init():  # put application's code here
 
 @app.route('/addbanner', methods=['GET'])
 def add_banner():
-    args = request.args
+    """
+    {
+    banner:banner_base64Image
+    }
+    """
+    args = request.json
     banner = args['banner']
     try:
         if banner is not None:
