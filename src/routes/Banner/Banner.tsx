@@ -28,12 +28,11 @@ const Banner = () =>{
            alert(result)
            var blob = dataURItoBlob(result)
            console.log(blob)
-           let json = JSON.stringify({
-               'banner':blob
-           })
-           var res =  axios.post('http://64.227.161.183/addbanner',json,{
+           let formdata = new FormData()
+           formdata.append('banner',blob)
+           var res =  axios.post('http://64.227.161.183/addbanner',formdata,{
                headers:{
-                'Content-Type': 'application/json'
+                'Content-Type': 'multipart/form-data'
                }
            })
            res.then(response=>{

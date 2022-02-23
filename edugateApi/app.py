@@ -17,8 +17,8 @@ def add_banner():
     banner:banner_base64Image
     }
     """
-    args = request.json
-    banner = args['banner']
+    args = request.files
+    banner = args['banner'].stream.read()
 
     if banner is not None:
         response = mysql.store_banner(banner)
