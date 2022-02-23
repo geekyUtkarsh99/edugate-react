@@ -38,6 +38,8 @@ const Banner = () =>{
            })
            res.then(response=>{
                console.log(response.status)
+           }).catch(error =>{
+               console.log(error)
            })
         }
  
