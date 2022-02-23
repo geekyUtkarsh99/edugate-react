@@ -33,7 +33,7 @@ class dbHandler:
                 if response is None:
                     # table not exists
                     sql = """
-                    CREATE TABLE banners (banner_img blob , banner_id varchar(max) );
+                    CREATE TABLE banners (banner_img blob , banner_id varchar(128) );
                     """
                     curse.execute(sql)
 
