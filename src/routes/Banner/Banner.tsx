@@ -27,7 +27,7 @@ const Banner = () =>{
             var result = e.target?.result
            alert(result)
            var blob = dataURItoBlob(result)
-           console.log(blob)
+           console.log(blob.stream)
            let formdata = new FormData()
            formdata.append('banner',blob)
            var res =  axios.post('http://64.227.161.183/addbanner',formdata,{
