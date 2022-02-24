@@ -25,7 +25,7 @@ def add_banner():
         if response:
             return make_response(jsonify({'message': 'banner added'})), 201
         else:
-            return make_response(jsonify({'message': 'something went wrong'})), 503
+            return make_response(jsonify({'message': 'something went wrong'})), 500
 
 
 @app.route('/getbanner', methods=['GET'])

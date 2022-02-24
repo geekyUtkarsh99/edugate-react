@@ -40,13 +40,13 @@ class dbHandler:
                     curse.execute(sql)
 
                     sql = """
-                    INSERT INTO banners VALUE(%s,%s);
+                    INSERT INTO banners VALUES(%s,%s);
                     """
                     curse.execute(sql, (bannerblob, id))
                     return True
                 else:
                     sql = """
-                                       INSERT INTO banners VALUE(%s,%s);
+                                       INSERT INTO banners VALUES(%s,%s);
                                        """
                     curse.execute(sql, (bannerblob, id))
                     return True
