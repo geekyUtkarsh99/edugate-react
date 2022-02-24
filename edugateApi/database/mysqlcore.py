@@ -44,7 +44,7 @@ class dbHandler:
                     return True
                 else:
                     sql = """
-                                       INSERT INTO banners VALUE(?,?);
+                                       INSERT INTO banners VALUE(%s,%s);
                                        """
                     curse.execute(sql, (bannerblob, id))
                     return True
