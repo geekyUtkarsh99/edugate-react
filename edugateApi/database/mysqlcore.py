@@ -83,4 +83,5 @@ class dbHandler:
                 curse.execute("""
                 INSERT INTO test VALUES(%s,%s); 
                 """,('test data',None))
+                conn.commit()
                 return True
