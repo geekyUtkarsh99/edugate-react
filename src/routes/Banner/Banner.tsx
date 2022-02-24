@@ -23,6 +23,8 @@ const Banner = () =>{
 
     const upload = (e:React.ChangeEvent<HTMLInputElement>) =>{
         let reader = new FileReader()
+        e.target.files instanceof FileList
+            ?reader.readAsDataURL(e.target.files[0]): Error('null value detected')
         reader.onload = (e)=>{
             var result = e.target?.result
            console.log(result)
@@ -36,15 +38,11 @@ const Banner = () =>{
                }
            })
            res.then(response=>{
-               console.log(response.data)
+               console.log(response)
            }).catch(error =>{
                console.log(error)
            })
         }
- 
-            e.target.files instanceof FileList
-            ?reader.readAsDataURL(e.target.files[0]): Error('null value detected')
-
     }
 
    

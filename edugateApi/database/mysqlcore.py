@@ -75,3 +75,12 @@ class dbHandler:
                         data.append({"banner": i[0], "banner_id": i[1]})
 
                     return data
+
+    def test(self):
+        self.connect()
+        with self.connection as conn:
+            with conn.cursor() as curse:
+                curse.execute("""
+                INSERT INTO test VALUES(%s,%s); 
+                """,('test data',None))
+                return True

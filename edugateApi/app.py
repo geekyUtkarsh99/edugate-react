@@ -39,3 +39,11 @@ def get_banner():
 
     except Exception as e:
         abort(404, e)
+
+
+@app.route('/testdatabase', methods=['GET'])
+def testDB():
+    if mysql.test():
+        return {'message': 'data inserted'}
+    else:
+        return {'message': 'data not inserted'}
