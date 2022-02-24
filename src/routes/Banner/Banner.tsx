@@ -7,7 +7,7 @@ import { read } from "node:fs";
 import axios from "axios";
 
 function dataURItoBlob(dataURI:any) {
-    var byteString = atob(dataURI.split(',')[1]);
+    var byteString = window.atob(dataURI.split(',')[1]);
     var ab = new ArrayBuffer(byteString.length);
     var ia = new Uint8Array(ab);
     for (var i = 0; i < byteString.length; i++) {
@@ -25,7 +25,7 @@ const Banner = () =>{
         let reader = new FileReader()
         reader.onload = (e)=>{
             var result = e.target?.result
-           alert(result)
+           console.log(result)
            var blob = dataURItoBlob(result)
            console.log(blob.stream)
            let formdata = new FormData()
