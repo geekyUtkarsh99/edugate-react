@@ -26,12 +26,9 @@ const Banner = () =>{
         e.target.files instanceof FileList
             ?reader.readAsDataURL(e.target.files[0]): Error('null value detected')
         reader.onload = (e)=>{
-            var result = e.target?.result
-           console.log(result)
-           var blob = dataURItoBlob(result)
-           console.log(blob.stream)
-           let formdata = new FormData()
-           formdata.append('banner',blob)
+            let formdata = new FormData()
+           var blob = fetch(e.target?.result as RequestInfo).then(async r=>{formdata.append('banner',await r.blob())}) 
+        //    formdata.append('banner',blob)
            var res =  axios.post('http://64.227.161.183/addbanner',formdata,{
                headers:{
                 'Content-Type': 'multipart/form-data'
