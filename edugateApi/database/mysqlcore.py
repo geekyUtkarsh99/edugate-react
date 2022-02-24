@@ -40,14 +40,14 @@ class dbHandler:
                     curse.execute(sql)
 
                     sql = """
-                    INSERT INTO banners VALUES(%s,%s);
+                    INSERT INTO banners (banner_img,banner_id)VALUES(%s,%s);
                     """
                     curse.execute(sql, (bannerblob, id))
                     print("query : ", curse.fetchall())
                     return True
                 else:
                     sql = """
-                                       INSERT INTO banners VALUES(%s,%s);
+                    INSERT INTO banners (banner_img,banner_id)VALUES(%s,%s);
                                        """
                     curse.execute(sql, (bannerblob, id))
                     print("query : ",curse.fetchall())
