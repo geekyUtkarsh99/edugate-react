@@ -31,10 +31,10 @@ class dbHandler:
                 response = list(curse.fetchall())
                 print("response :",response)
                 id = self.generate_banner_id()  # unique id
-                if response is None:
+                if not response:
                     # table not exists
                     sql = """
-                    CREATE TABLE banners (banner_img blob , banner_id varchar(128) );
+                    CREATE TABLE banners (banner_img LONGBLOB , banner_id varchar(10) );
                     """
                     curse.execute(sql)
 
