@@ -39,7 +39,7 @@ class dbHandler:
                     curse.execute(sql)
 
                     sql = """
-                    INSERT INTO banners VALUE(?,?);
+                    INSERT INTO banners VALUE(%s,%s);
                     """
                     curse.execute(sql, (bannerblob, id))
                     return True
