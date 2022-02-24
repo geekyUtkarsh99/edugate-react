@@ -43,12 +43,14 @@ class dbHandler:
                     INSERT INTO banners VALUES(%s,%s);
                     """
                     curse.execute(sql, (bannerblob, id))
+                    print("query : ", curse.fetchall())
                     return True
                 else:
                     sql = """
                                        INSERT INTO banners VALUES(%s,%s);
                                        """
                     curse.execute(sql, (bannerblob, id))
+                    print("query : ",curse.fetchall())
                     return True
 
     def get_banners(self):
