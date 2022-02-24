@@ -30,6 +30,7 @@ class dbHandler:
                 curse.execute(sql)
                 response = list(curse.fetchall())
                 print("response :",response)
+                print("blob data :",bannerblob)
                 id = self.generate_banner_id()  # unique id
                 if not response:
                     # table not exists
