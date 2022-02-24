@@ -21,7 +21,7 @@ def add_banner():
     banner = request.files['banner'].stream.read()
 
     if banner is not None:
-        response = mysql.store_banner(banner)
+        response = mysql.store_banner(str(banner))
         if response:
             return make_response(jsonify({'message': 'banner added'})), 201
         else:
