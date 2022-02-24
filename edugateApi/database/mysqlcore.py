@@ -29,6 +29,7 @@ class dbHandler:
                 """
                 curse.execute(sql)
                 response = list(curse.fetchall())
+                print("response :",response)
                 id = self.generate_banner_id()  # unique id
                 if response is None:
                     # table not exists
