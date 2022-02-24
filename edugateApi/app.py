@@ -30,15 +30,11 @@ def add_banner():
 
 @app.route('/getbanner', methods=['GET'])
 def get_banner():
-    try:
-        response = mysql.get_banners()
-        if response is not None:
-            return make_response(jsonify({'status': 200, 'banners': response})), 200
-        else:
-            return make_response(jsonify({'status': 404, 'banners': []})), 404
-
-    except Exception as e:
-        abort(404, e)
+    response = mysql.get_banners()
+    if response is not None:
+        return make_response(jsonify({'status': 200, 'banners': response})), 200
+    else:
+        return make_response(jsonify({'status': 404, 'banners': []})), 404
 
 
 @app.route('/testdatabase', methods=['GET'])
