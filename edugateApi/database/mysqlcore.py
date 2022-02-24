@@ -45,7 +45,6 @@ class dbHandler:
                     curse.execute(sql, (bannerblob, id))
                     print("query : ", curse.fetchall())
                     conn.commit()
-                    conn.close()
                     return True
                 else:
                     sql = """
@@ -54,7 +53,6 @@ class dbHandler:
                     curse.execute(sql, (bannerblob, id))
                     print("query : ",curse.fetchall())
                     conn.commit()
-                    conn.close()
                     return True
 
     def get_banners(self):
@@ -88,5 +86,4 @@ class dbHandler:
                 INSERT INTO test VALUES(%s,%s); 
                 """,('test data',None))
                 conn.commit()
-                conn.close()
                 return True
