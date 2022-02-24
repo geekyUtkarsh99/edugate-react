@@ -1,3 +1,5 @@
+import base64
+
 import pymysql
 import random
 import string
@@ -74,7 +76,7 @@ class dbHandler:
                     response = curse.fetchall()
                     data = []
                     for i in response:
-                        data.append({"banner": i[0], "banner_id": i[1]})
+                        data.append({"banner": base64.b64encode(i[0]), "banner_id": i[1]})
 
                     return data
 
