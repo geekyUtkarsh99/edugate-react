@@ -62,7 +62,7 @@ type='file'
 accept="image/*"
 style={{ display: 'none' }}
 id="contained-button-file"
-onChange={(e)=>{  if (window.confirm("Upload documents to database ?"))upload(e)}}
+onChange={(e)=>{  upload(e)}}
 hidden
 />
 </div>)
