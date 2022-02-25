@@ -2,6 +2,8 @@ import React, { useRef, useState } from "react";
 import './Qpaper.css'
 import Select from 'react-select'
 import { handleInputChange } from "react-select/dist/declarations/src/utils";
+import { read } from "node:fs";
+import axios from "axios";
 
 const yearops = [
     {values:"Year",label:'Year'},
@@ -70,8 +72,25 @@ const Qpaper = () =>{
     const onHandleFileEvent = (e:React.ChangeEvent<HTMLInputElement>) =>{
         let reader = new FileReader()
 
-        reader.onload = (e) =>{
+         e.target.files instanceof FileList
+        ?reader.readAsDataURL(e.target.files[0]) : Error('null value')
 
+        reader.onload = (e) =>{
+       
+            let formdata = new FormData()
+            formdata.append('year',year)
+            formdata.append('course',course)
+            formdata.append('sem',sem)
+            formdata.append('lang',lang)
+            formdata.append('filename','file-pdf')
+            let blob = fetch(e.target?.result as RequestInfo).then(async r =>{formdata.append('file',await r.blob())})
+            .then(()=>{
+                axios.post('http://64.227.161.183/addquestions',formdata,{
+                    headers:{
+                        'Content-Type': 'multipart/form-data'
+                    }
+                })
+            })
         }
 
     }
