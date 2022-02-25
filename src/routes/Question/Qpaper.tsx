@@ -1,22 +1,23 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import './Qpaper.css'
 import Select from 'react-select'
+import { handleInputChange } from "react-select/dist/declarations/src/utils";
 
 const yearops = [
-    {values:"1",label:'Year'},
-    {values:"1",label:'2021'},
-    {values:"1",label:'2022'}
+    {values:"Year",label:'Year'},
+    {values:"2021",label:'2021'},
+    {values:"2022",label:'2022'}
 ]
 
 const languageops = [
-    {values:"eng",label:"Language"},
+    {values:"lang",label:"Language"},
     {values:"eng",label:"English"},
     {values:"hin",label:"Hindi"}
 ]
 
 const courseops = [
 
-    {values:"btech",label:"Course"},
+    {values:"course",label:"Course"},
     {values:"btech",label:"B.Tech"},
     {values:"bsc",label:"B.sc"}
 ]
@@ -35,8 +36,53 @@ const semesterops = [
     {values:"8",label:"8th"},
 ]
 
-
 const Qpaper = () =>{
+
+    var fileref = useRef<HTMLInputElement>(null)
+
+    const [year,setYear] = useState('Year');
+    const [lang , setLanguage] = useState('Language')
+    const [course, setCourse] = useState('Course')
+    const [sem,setSemenster] = useState('Semester')
+
+
+    const onYearChange = (e:React.ChangeEvent<HTMLSelectElement>)=>{
+
+        setYear(e.target?.value)
+
+    }
+    const onLangChange = (e:React.ChangeEvent<HTMLSelectElement>)=>{
+
+        setLanguage(e.target?.value)
+
+    }
+    const onCourseChange = (e:React.ChangeEvent<HTMLSelectElement>)=>{
+
+        setCourse(e.target?.value)
+
+    }
+    const onSemChange = (e:React.ChangeEvent<HTMLSelectElement>)=>{
+
+        setSemenster(e.target?.value)
+
+    }
+
+    const onHandleFileEvent = (e:React.ChangeEvent<HTMLInputElement>) =>{
+        let reader = new FileReader()
+
+        reader.onload = (e) =>{
+
+        }
+
+    }
+
+    const checkAllFilled = () =>{
+
+        if (year !== 'Year' && lang !== 'lang' && course !== 'course' && sem !== 'sem' )
+         return true
+        else return false
+    }
+
     return(<div className="box">
 
 <text className="text">Fill in the following details (parameters), then click on “Upload file” button to upload question paper.</text>
@@ -44,15 +90,15 @@ const Qpaper = () =>{
 {/* <Select  className="dropdown" options={options}/> */}
 
 <div className="sub_child1">
-<select className="dropdown" >
+<select className="dropdown" onChange={(e)=>{onYearChange(e)}} >
     {
         yearops.map(e=>{
-           return <option label={e.label} value ={e.values}/>
+           return <option label={e.label} value ={e.values} />
         })
     }
 </select>
 
-<select className="dropdown" >
+<select className="dropdown" onChange={(e)=>{onLangChange(e)}}>
     {
         languageops.map(e=>{
            return <option label={e.label} value ={e.values}/>
@@ -63,7 +109,7 @@ const Qpaper = () =>{
 </div>
 
 <div className="sub_child2">
-<select className="dropdown" >
+<select className="dropdown"onChange={(e)=>{onCourseChange(e)}} >
     {
         courseops.map(e=>{
            return <option label={e.label} value ={e.values}/>
@@ -71,7 +117,7 @@ const Qpaper = () =>{
     }
 </select>
 
-<select className="dropdown" >
+<select className="dropdown" onChange={(e)=>{onSemChange(e)}}>
     {
         semesterops.map(e=>{
            return <option label={e.label} value ={e.values}/>
@@ -81,9 +127,17 @@ const Qpaper = () =>{
 
 </div>
 
-<button className="btn" >
+<button className="btn" onClick={()=>{if (fileref.current !== null && checkAllFilled())fileref.current.click()
+     else {window.alert("Please select all the options .")}}} >
     UPLOAD FILE
 </button>
+<input 
+ref={fileref}
+type = 'file'
+accept=".pdf,.doc,.docx"
+onChange = {(e)=>{ if (checkAllFilled())if(window.confirm('Upload Document to database ?'))onHandleFileEvent(e)}}
+hidden
+/>
  
 
 
