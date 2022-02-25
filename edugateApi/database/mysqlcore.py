@@ -31,8 +31,8 @@ class dbHandler:
                 """
                 curse.execute(sql)
                 response = list(curse.fetchall())
-                print("response :",response)
-                print("blob data :",bannerblob)
+                print("response :", response)
+                print("blob data :", bannerblob)
                 id = self.generate_banner_id()  # unique id
                 if not response:
                     # table not exists
@@ -53,7 +53,7 @@ class dbHandler:
                     INSERT INTO banners (banner_img,banner_id)VALUES(%s,%s);
                                        """
                     curse.execute(sql, (bannerblob, id))
-                    print("query : ",curse.fetchall())
+                    print("query : ", curse.fetchall())
                     conn.commit()
                     return True
 
@@ -80,12 +80,72 @@ class dbHandler:
 
                     return data
 
+    def add_Questions(self, questionBuffer, filename, year, course, sem, lang):
+        self.connect()
+        with self.connection as conn:
+            with conn.cursor() as curse:
+                # check if table exists
+                sql = """
+                              SHOW TABLES LIKE 'questions';
+                              """
+                curse.execute(sql)
+                response = list(curse.fetchall())
+                print("response :", response)
+                print("blob data :", questionBuffer)
+                id = self.generate_banner_id()  # unique id
+                if not response:
+
+                    sql = """
+                    CREATE TABLE questions (filename varchar(128) , file longblob , year varchar(5),course varchar(28),language varchar(28) , sem varchar(28));
+                    """
+                    curse.execute(sql)
+
+                    sql = """
+                    INSERT INTO questions VALUES(%s,%s,%s,%s,%s,%s);
+                    """
+                    args = (filename, questionBuffer, year, course, lang, sem)
+                    curse.execute(sql, args)
+                    conn.commit()
+                    return True
+                else:
+                    sql = """
+                                       INSERT INTO questions VALUES(%s,%s,%s,%s,%s,%s);
+                                       """
+                    args = (filename, questionBuffer, year, course, lang, sem)
+                    curse.execute(sql, args)
+                    conn.commit()
+                    return True
+
+    def get_questions(self):
+        self.connect()
+        with self.connection as conn:
+            with conn.cursor() as curse:
+                sql = """
+                                              SELECT count(*) FROM questions;
+                                              """
+                curse.execute(sql)
+                response = list(curse.fetchall())
+                if response is None:
+                    return response
+                else :
+                    sql = """
+                    SELECT * FROM questions;
+                    """
+                    curse.execute(sql)
+                    response = curse.fetchall()
+                    data = {}
+                    for i in list(response):
+                        data = {'fileName':i[0],'file':base64.b64encode(i[1]).decode()}
+                    return data
+
+
+
     def test(self):
         self.connect()
         with self.connection as conn:
             with conn.cursor() as curse:
                 curse.execute("""
                 INSERT INTO test VALUES(%s,%s); 
-                """,('test data',None))
+                """, ('test data', None))
                 conn.commit()
                 return True
