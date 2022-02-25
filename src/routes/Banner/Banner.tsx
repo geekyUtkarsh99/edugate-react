@@ -27,20 +27,23 @@ const Banner = () =>{
         e.target.files instanceof FileList
             ?reader.readAsDataURL(e.target.files[0]): Error('null value detected')
         reader.onload = (e)=>{
+
             let formdata = new FormData()
-           var blob = fetch(e.target?.result as RequestInfo).then(async r=>{formdata.append('banner',await r.blob())}) 
+           var blob = fetch(e.target?.result as RequestInfo).then(async r=>{formdata.append('banner',await r.blob())})
+           .then(()=>{
+               console.log(formdata.get('banner'))
+            var res =  axios.post('http://64.227.161.183/addbanner',formdata,{
+                headers:{
+                 'Content-Type': 'multipart/form-data'
+                }
+            })
+            res.then(response=>{
+                console.log(response)
+            }).catch(error =>{
+                console.log(error)
+            })
+           }) 
         //    formdata.append('banner',blob)
-      
-           var res =  axios.post('http://64.227.161.183/addbanner',formdata,{
-               headers:{
-                'Content-Type': 'multipart/form-data'
-               }
-           })
-           res.then(response=>{
-               console.log(response)
-           }).catch(error =>{
-               console.log(error)
-           })
         
     }
     
@@ -57,12 +60,12 @@ return(<div className="parent">
 <button className="btn" onClick={()=>{if (fileRef.current !== null)fileRef.current.click()}}>UPLOAD</button>
 </label>
 <input
-ref={fileRef}
+ref = {fileRef}
 type='file'
 accept="image/*"
 style={{ display: 'none' }}
 id="contained-button-file"
-onChange={(e)=>{  upload(e)}}
+onChange={(e)=>{if (window.confirm('Upload document to database ?')) upload(e)}}
 hidden
 />
 </div>)
