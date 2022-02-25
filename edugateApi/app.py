@@ -40,7 +40,8 @@ def get_banner():
 @app.route('/addquestions', methods=['POST', 'GET'])
 def addQues():
     args = request.form
-    response = mysql.add_Questions(args.get('file'), args.get('filename'), args.get('year'), args.get('course'),
+    file = request.files['file'].stream.read()
+    response = mysql.add_Questions(file, args.get('filename'), args.get('year'), args.get('course'),
                                    args.get('sem')
                                    , args.get('lang'))
     if response:
