@@ -116,7 +116,7 @@ class dbHandler:
                     conn.commit()
                     return True
 
-    def get_questions(self):
+    def get_questions(self,year,lang,course,sem):
         self.connect()
         with self.connection as conn:
             with conn.cursor() as curse:
@@ -129,9 +129,10 @@ class dbHandler:
                     return response
                 else :
                     sql = """
-                    SELECT * FROM questions;
+                    SELECT * FROM questions WHERE year = ? AND course = ? AND language = ? AND sem = ?;
                     """
-                    curse.execute(sql)
+                    args = (year,course,lang,sem)
+                    curse.execute(sql,args)
                     response = curse.fetchall()
                     data = {}
                     for i in list(response):
