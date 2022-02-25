@@ -19,7 +19,7 @@ function dataURItoBlob(dataURI:any) {
 
 const Banner = () =>{
 
-    const fileRef = useRef
+    const fileRef = React.useRef<HTMLInputElement>(null);
 
     const upload = (e:React.ChangeEvent<HTMLInputElement>) =>{
         let reader = new FileReader()
@@ -50,14 +50,16 @@ return(<div className="parent">
 
 
 <label htmlFor="contained-button-file">
-<button className="btn">UPLOAD</button>
+<button className="btn" onClick={()=>{if (fileRef.current !== null)fileRef.current.click()}}>UPLOAD</button>
 </label>
 <input
+ref={fileRef}
 type='file'
 accept="image/*"
 style={{ display: 'none' }}
 id="contained-button-file"
 onChange={(e)=>{upload(e)}}
+hidden
 />
 </div>)
 
