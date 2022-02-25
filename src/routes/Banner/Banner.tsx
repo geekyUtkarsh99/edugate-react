@@ -30,7 +30,7 @@ const Banner = () =>{
             let formdata = new FormData()
            var blob = fetch(e.target?.result as RequestInfo).then(async r=>{formdata.append('banner',await r.blob())}) 
         //    formdata.append('banner',blob)
-        if (window.confirm("Upload documents to database ?")){
+      
            var res =  axios.post('http://64.227.161.183/addbanner',formdata,{
                headers:{
                 'Content-Type': 'multipart/form-data'
@@ -41,7 +41,7 @@ const Banner = () =>{
            }).catch(error =>{
                console.log(error)
            })
-        }
+        
     }
     
     }
@@ -62,7 +62,7 @@ type='file'
 accept="image/*"
 style={{ display: 'none' }}
 id="contained-button-file"
-onChange={(e)=>{upload(e)}}
+onChange={(e)=>{  if (window.confirm("Upload documents to database ?"))upload(e)}}
 hidden
 />
 </div>)

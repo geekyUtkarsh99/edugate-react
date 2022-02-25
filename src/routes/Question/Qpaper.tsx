@@ -80,6 +80,10 @@ const Qpaper = () =>{
 </select>
 
 </div>
+
+<button className="btn" >
+    UPLOAD FILE
+</button>
  
 
 

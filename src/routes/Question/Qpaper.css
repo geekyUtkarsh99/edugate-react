@@ -49,3 +49,20 @@ padding: 16px;
     text-decoration: white;
     margin: 16px;
 }
+
+.btn{
+
+    position: relative;
+    background: #011FA3;
+    color: white;
+    font-size: 24px;
+    padding-left: 35px;
+    padding-right: 35px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 10px;
+    border-style:ridge;
+    border-color: #011FA3;
+    margin: 12px;
+
+}
