@@ -129,7 +129,7 @@ class dbHandler:
                     return response
                 else :
                     sql = """
-                    SELECT * FROM questions WHERE year = ? AND course = ? AND language = ? AND sem = ?;
+                    SELECT * FROM questions WHERE year = %s AND course = %s AND language = %s AND sem = %s;
                     """
                     args = (year,course,lang,sem)
                     curse.execute(sql,args)
