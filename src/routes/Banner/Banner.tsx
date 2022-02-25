@@ -22,6 +22,7 @@ const Banner = () =>{
     const fileRef = React.useRef<HTMLInputElement>(null);
 
     const upload = (e:React.ChangeEvent<HTMLInputElement>) =>{
+        
         let reader = new FileReader()
         e.target.files instanceof FileList
             ?reader.readAsDataURL(e.target.files[0]): Error('null value detected')
@@ -29,6 +30,7 @@ const Banner = () =>{
             let formdata = new FormData()
            var blob = fetch(e.target?.result as RequestInfo).then(async r=>{formdata.append('banner',await r.blob())}) 
         //    formdata.append('banner',blob)
+        if (window.confirm("Upload documents to database ?")){
            var res =  axios.post('http://64.227.161.183/addbanner',formdata,{
                headers:{
                 'Content-Type': 'multipart/form-data'
@@ -40,6 +42,8 @@ const Banner = () =>{
                console.log(error)
            })
         }
+    }
+    
     }
 
    
