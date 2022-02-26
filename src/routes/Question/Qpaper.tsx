@@ -46,6 +46,7 @@ const Qpaper = () =>{
     const [lang , setLanguage] = useState('Language')
     const [course, setCourse] = useState('Course')
     const [sem,setSemenster] = useState('Semester')
+    const [filename,setFileName] = useState('')
 
 
     const onYearChange = (e:React.ChangeEvent<HTMLSelectElement>)=>{
@@ -71,9 +72,11 @@ const Qpaper = () =>{
 
     const onHandleFileEvent = (e:React.ChangeEvent<HTMLInputElement>) =>{
         let reader = new FileReader()
-
+    
          e.target.files instanceof FileList
         ?reader.readAsDataURL(e.target.files[0]) : Error('null value')
+
+        e.target.files instanceof FileList ? setFileName(e.target.files[0].name) : Error("no value")
 
         reader.onload = (e) =>{
        
@@ -82,7 +85,7 @@ const Qpaper = () =>{
             formdata.append('course',course)
             formdata.append('sem',sem)
             formdata.append('lang',lang)
-            formdata.append('filename','file-pdf')
+            formdata.append('filename',filename)
             let blob = fetch(e.target?.result as RequestInfo).then(async r =>{formdata.append('file',await r.blob())})
             .then(()=>{
                 axios.post('http://64.227.161.183/addquestions',formdata,{
