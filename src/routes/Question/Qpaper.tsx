@@ -85,6 +85,7 @@ const Qpaper = () =>{
             formdata.append('course',course)
             formdata.append('sem',sem)
             formdata.append('lang',lang)
+            console.log(filename)
             formdata.append('filename',filename)
             let blob = fetch(e.target?.result as RequestInfo).then(async r =>{formdata.append('file',await r.blob())})
             .then(()=>{
@@ -92,7 +93,11 @@ const Qpaper = () =>{
                     headers:{
                         'Content-Type': 'multipart/form-data'
                     }
+                }).catch(error =>{
+                    console.log("erro from axios:"+error)
                 })
+            }).catch(error=>{
+                console.log("error from blob:"+error)
             })
         }
 
