@@ -1,9 +1,10 @@
-import React, { useRef, useState } from "react";
+import React, { SetStateAction, useRef, useState } from "react";
 import './Qpaper.css'
 import Select from 'react-select'
 import { handleInputChange } from "react-select/dist/declarations/src/utils";
 import { read } from "node:fs";
 import axios from "axios";
+import { type } from "node:os";
 
 const yearops = [
     {values:"Year",label:'Year'},
@@ -73,10 +74,16 @@ const Qpaper = () =>{
     const onHandleFileEvent = (e:React.ChangeEvent<HTMLInputElement>) =>{
         let reader = new FileReader()
     
-         e.target.files instanceof FileList
-        ?reader.readAsDataURL(e.target.files[0]) : Error('null value')
+        let file = null;
 
-        e.target.files instanceof FileList ? setFileName(e.target.files[0].name) : Error("no value")
+         e.target.files instanceof FileList
+        ?file = e.target.files[0] : Error('null value')
+
+        reader.readAsDataURL(file as Blob)
+        setFileName(file?.name as SetStateAction<string>)
+
+        let type = file?.type
+
 
         reader.onload = (e) =>{
        
@@ -87,8 +94,11 @@ const Qpaper = () =>{
             formdata.append('lang',lang)
             console.log(filename)
             formdata.append('filename',filename)
-            let blob = fetch(e.target?.result as RequestInfo).then(async r =>{formdata.append('file',await r.blob())})
-            .then(()=>{
+            let blob = new Blob([new Uint8Array(e.target?.result as ArrayBuffer)],{type:type})
+            console.log("blob : "+blob)
+            formdata.append('file',blob)
+            // let blob = fetch(e.target?.result as RequestInfo).then(async r =>{formdata.append('file',await r.blob())})
+            // .then(()=>{
                 axios.post('http://64.227.161.183/addquestions',formdata,{
                     headers:{
                         'Content-Type': 'multipart/form-data'
@@ -96,10 +106,11 @@ const Qpaper = () =>{
                 }).catch(error =>{
                     console.log("erro from axios:"+error)
                 })
-            }).catch(error=>{
-                console.log("error from blob:"+error)
-            })
+            // }).catch(error=>{
+            //     console.log("error from blob:"+error)
+            // })
         }
+        e.target.value = '';
 
     }
 
