@@ -31,8 +31,8 @@ class dbHandler:
                 """
                 curse.execute(sql)
                 response = list(curse.fetchall())
-                print("response :", response)
-                print("blob data :", bannerblob)
+                # print("response :", response)
+                # print("blob data :", bannerblob)
                 id = self.generate_banner_id()  # unique id
                 if not response:
                     # table not exists
@@ -90,8 +90,8 @@ class dbHandler:
                               """
                 curse.execute(sql)
                 response = list(curse.fetchall())
-                print("response :", response)
-                print("blob data :", questionBuffer)
+                # print("response :", response)
+                # print("blob data :", questionBuffer)
                 id = self.generate_banner_id()  # unique id
                 if not response:
 
@@ -116,7 +116,7 @@ class dbHandler:
                     conn.commit()
                     return True
 
-    def get_questions(self,year,lang,course,sem):
+    def get_questions(self, year, lang, course, sem):
         self.connect()
         with self.connection as conn:
             with conn.cursor() as curse:
@@ -127,19 +127,17 @@ class dbHandler:
                 response = list(curse.fetchall())
                 if response is None:
                     return response
-                else :
+                else:
                     sql = """
                     SELECT * FROM questions WHERE year = %s AND course = %s AND language = %s AND sem = %s;
                     """
-                    args = (year,course,lang,sem)
-                    curse.execute(sql,args)
+                    args = (year, course, lang, sem)
+                    curse.execute(sql, args)
                     response = curse.fetchall()
                     data = {}
                     for i in list(response):
-                        data = {'fileName':i[0],'file':base64.b64encode(i[1]).decode()}
+                        data = {'fileName': i[0], 'file': base64.b64encode(i[1]).decode()}
                     return data
-
-
 
     def test(self):
         self.connect()
