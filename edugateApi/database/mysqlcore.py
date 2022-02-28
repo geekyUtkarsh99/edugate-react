@@ -164,7 +164,7 @@ class dbHandler:
                     INSERT INTO notes VALUES(%s,%s,%s,%s);
                     """
                     args = (course,sem,filename,file)
-                    curse.execute(sql.args)
+                    curse.execute(sql,args)
                     conn.commit()
                     return True
                 else :
