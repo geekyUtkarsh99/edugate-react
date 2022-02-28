@@ -127,7 +127,7 @@ const Qpaper = () =>{
 
     const checkAllFilled = () =>{
 
-        if (year !== 'Year' && lang !== 'lang' && course !== 'course' && sem !== 'sem' )
+        if (year !== 'Year' && lang !== 'Language' && course !== 'Course' && sem !== 'Semester' )
          return true
         else return false
     }
