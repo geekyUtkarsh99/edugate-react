@@ -196,7 +196,7 @@ class dbHandler:
                     response = list(curse.fetchall())
                     data = []
                     for i in response:
-                        data.append({'notesName':i[2],'notesPDF':i[3]})
+                        data.append({'notesName':i[2],'notesPDF':base64.b64encode(i[3]).decode()})
                     return data
 
     def test(self):
