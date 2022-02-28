@@ -1,0 +1,42 @@
+.parent{
+    display: flex;
+    flex-direction: column;
+    background: black;
+    width: 100%;
+    align-items: center;
+    }
+
+.text{
+        color: white;
+        font-size: 48px;
+        margin: 15px;
+        padding: 24px;
+        }
+
+.dropdown{
+            display: flex;
+            border-color: solid 2px white;
+            background: black;
+            font-size: 24px;
+            /* padding-left: 45px;
+            padding-right: 45px; */
+            border-radius: 8px;
+            /* padding-top: 6px;
+            padding-bottom: 6px; */
+            justify-content: center;
+            align-items: center;
+            width: 15vw;
+            padding-top: 6px;
+            padding-bottom: 6px;
+            color: white;
+            text-decoration: white;
+            margin: 16px;
+        }
+
+        .sub_child1{
+
+            display: flex;
+            flex-direction: row;
+            padding: 16px;
+            
+            }

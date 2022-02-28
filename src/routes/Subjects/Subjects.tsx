@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import './Subjects.css';
 
 const courseops = [
 
@@ -18,7 +19,7 @@ const subjectops = [
 const Subjects  =()=>{
 
     const [course, setCourse] = useState('Course')
-    const [subject, setsubject] = useState('Course')
+    const [subject, setsubject] = useState('Subject')
     const onCourseChange = (e:React.ChangeEvent<HTMLSelectElement>)=>{
 
         setCourse(e.target?.value)
@@ -36,7 +37,7 @@ const Subjects  =()=>{
 
 <div className="sub_child1">
 
-<select className="dropdown"onChange={(e)=>{onCourseChange(e)}} >
+<select className="dropdown" onChange={(e)=>{onCourseChange(e)}} >
     {
         courseops.map(e=>{
            return <option label={e.label} value ={e.values}/>
@@ -44,7 +45,7 @@ const Subjects  =()=>{
     }
 </select>
 
-<select className="dropdown"onChange={(e)=>{onSubjectChange(e)}} >
+<select className="dropdown" onChange={(e)=>{onSubjectChange(e)}} >
     {
         subjectops.map(e=>{
            return <option label={e.label} value ={e.values}/>
