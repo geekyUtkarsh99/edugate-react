@@ -2,6 +2,8 @@ import React from "react";
 import './Notes.css';
 import { useState } from "react";
 import { useRef } from "react";
+import { read, ReadStream } from "node:fs";
+import axios from "axios";
 
 
 const courseops = [
@@ -52,10 +54,52 @@ const Notes = () =>{
         else return false
     }
 
+    function dataURItoBlob(dataURI:any) {
+        var byteString = window.atob(dataURI.split(',')[1]);
+        var ab = new ArrayBuffer(byteString.length);
+        var ia = new Uint8Array(ab);
+        for (var i = 0; i < byteString.length; i++) {
+            ia[i] = byteString.charCodeAt(i);
+        }
+        var bb = new Blob([ab]);
+        return bb;
+    }
+
 
     const onHandleFileEvent = (e:React.ChangeEvent<HTMLInputElement>) =>{
 
+        let reader = new FileReader()
+        var file = null;
+    
+        e.target.files instanceof FileList
+        ?file = e.target.files[0] : Error('null')
+        reader.readAsDataURL(file as Blob);
 
+        var name = file?.name
+        reader.onload = e=>{
+           let formdata = new FormData()
+           formdata.append('course',course)
+           formdata.append('sem',sem)
+           formdata.append('filename',name as string)
+           let blob = dataURItoBlob(e.target?.result)
+           formdata.append('file',blob)
+           axios.post('http://64.227.161.183/addnotes',formdata , {
+               headers:{
+
+                'Content-Type': 'multipart/form-data'
+
+               }
+           }).then(res =>{
+               console.log("notes res:"+ res)
+           }).catch(e=>{
+
+            console.log('notes err: '+ e)
+           })
+
+
+        }
+        e.target.value = '';
+    
 
     }
 
