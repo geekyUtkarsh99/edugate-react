@@ -145,7 +145,7 @@ class dbHandler:
             with conn.cursor() as curse:
                 # check if table exists
                 sql = """
-                                              SHOW TABLES LIKE 'questions';
+                                              SHOW TABLES LIKE 'notes';
                                               """
                 curse.execute(sql)
                 response = list(curse.fetchall())
