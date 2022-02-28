@@ -134,9 +134,69 @@ class dbHandler:
                     args = (year, course, lang, sem)
                     curse.execute(sql, args)
                     response = curse.fetchall()
-                    data = {}
+                    data = []
                     for i in list(response):
-                        data = {'fileName': i[0], 'file': base64.b64encode(i[1]).decode()}
+                        data.append({'fileName': i[0], 'file': base64.b64encode(i[1]).decode()})
+                    return data
+
+    def add_notes(self,course,sem,filename,file):
+        self.connect()
+        with self.connection as conn:
+            with conn.cursor() as curse:
+                # check if table exists
+                sql = """
+                                              SHOW TABLES LIKE 'questions';
+                                              """
+                curse.execute(sql)
+                response = list(curse.fetchall())
+                # print("response :", response)
+                # print("blob data :", questionBuffer)
+                id = self.generate_banner_id()  # unique id
+                if not response:
+                    sql = """
+                    CREATE TABLE notes (course varchar(128) , semester varchar(12), filename varchar(128),
+                    file LONGBLOB);
+                    """
+
+                    curse.execute(sql)
+
+                    sql = """
+                    INSERT INTO notes VALUES(%s,%s,%s,%s);
+                    """
+                    args = (course,sem,filename,file)
+                    curse.execute(sql.args)
+                    conn.commit()
+                    return True
+                else :
+                    sql = """
+                                      INSERT INTO notes VALUES(%s,%s,%s,%s);
+                                      """
+                    args = (course, sem, filename, file)
+                    curse.execute(sql.args)
+                    conn.commit()
+                    return True
+
+    def get_notes(self,course,sem):
+        self.connect()
+        with self.connection as conn:
+            with conn.cursor() as curse:
+                sql = """
+                                                              SELECT count(*) FROM questions;
+                                                              """
+                curse.execute(sql)
+                response = list(curse.fetchall())
+                if response is None:
+                    return response
+                else :
+                    sql =   """
+                    SELECT * FROM notes where course = %s AND semester = %s;
+                    """
+                    args = (course,sem)
+                    curse.execute(sql,args)
+                    response = list(curse.fetchall())
+                    data = []
+                    for i in response:
+                        data.append({'notesName':i[2],'notesPDF':i[3]})
                     return data
 
     def test(self):

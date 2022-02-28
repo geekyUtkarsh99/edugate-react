@@ -60,6 +60,26 @@ def getQues():
         return make_response(jsonify({'status': 404, 'questions': []})), 404
 
 
+@app.route('/addnotes',methods = ['POST','GET'])
+def add_notes():
+    args = request.form
+    file = request.files['file'].stream.read()
+
+    response = mysql.add_notes(args['course'],args['sem'],args['filename'],file)
+    if response:
+        return make_response(jsonify({'message':'added'})),201
+    else : return make_response(jsonify({'message':'failed to add'})),500
+
+@app.route('/getnotes',methods = ['GET'])
+def get_notes():
+    args = request.args
+    response = mysql.get_notes(args['course'],args['sem'])
+    if response is not None:
+        return make_response(jsonify({'status':200,'notes':response})),200
+    else :
+        return make_response(jsonify({'status': 404, 'notes': []})), 400
+
+
 @app.route('/testdatabase', methods=['GET'])
 def testDB():
     if mysql.test():
