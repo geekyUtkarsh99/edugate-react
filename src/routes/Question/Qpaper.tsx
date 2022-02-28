@@ -39,6 +39,17 @@ const semesterops = [
     {values:"8",label:"8th"},
 ]
 
+function dataURItoBlob(dataURI:any) {
+    var byteString = window.atob(dataURI.split(',')[1]);
+    var ab = new ArrayBuffer(byteString.length);
+    var ia = new Uint8Array(ab);
+    for (var i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+    }
+    var bb = new Blob([ab]);
+    return bb;
+}
+
 const Qpaper = () =>{
 
     var fileref = useRef<HTMLInputElement>(null)
@@ -94,7 +105,7 @@ const Qpaper = () =>{
             formdata.append('lang',lang)
             console.log(filename)
             formdata.append('filename',filename)
-            let blob = new Blob([new Uint8Array(e.target?.result as ArrayBuffer)],{type:type})
+            let blob = dataURItoBlob(e.target?.result)
             console.log("blob : "+blob)
             formdata.append('file',blob)
             // let blob = fetch(e.target?.result as RequestInfo).then(async r =>{formdata.append('file',await r.blob())})
