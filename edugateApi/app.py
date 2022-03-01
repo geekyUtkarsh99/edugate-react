@@ -95,6 +95,7 @@ def add_branch():
 @app.route('/getbranch', methods=['GET'])
 def get_branch():
     response = mysql.get_branches()
+
     if response is not None:
         return make_response(jsonify({'status': 200, 'branch': response})), 200
     else:

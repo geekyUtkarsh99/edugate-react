@@ -50,6 +50,7 @@ function App() {
       <Route path='video' element={<VideoClasses/>}/>
       <Route path='*' element={<Banner/>}/>
       </Route> */}
+     
 
        <Route path='/' element ={<Banner/>}/>
       <Route path='questionpapers' element = {<Qpaper/>}/> 
