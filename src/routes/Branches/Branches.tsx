@@ -1,7 +1,7 @@
 import React from "react";
 
 const Branches = () =>{
-    return(<div>
+    return(<div className="parent">
         <h1>
             Branches
         </h1>

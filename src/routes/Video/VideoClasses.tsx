@@ -1,7 +1,7 @@
 import React from "react";
 
 const VideoClasses = () =>{
-    return(<div>
+    return(<div className="parent">
         <h1>
             Video 
         </h1>

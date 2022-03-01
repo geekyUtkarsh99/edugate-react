@@ -139,7 +139,7 @@ class dbHandler:
                         data.append({'fileName': i[0], 'file': base64.b64encode(i[1]).decode()})
                     return data
 
-    def add_notes(self,course,sem,filename,file):
+    def add_notes(self, course, sem, filename, file):
         self.connect()
         with self.connection as conn:
             with conn.cursor() as curse:
@@ -163,41 +163,99 @@ class dbHandler:
                     sql = """
                     INSERT INTO notes VALUES(%s,%s,%s,%s);
                     """
-                    args = (course,sem,filename,file)
-                    curse.execute(sql,args)
+                    args = (course, sem, filename, file)
+                    curse.execute(sql, args)
                     conn.commit()
                     return True
-                else :
+                else:
                     sql = """
                                       INSERT INTO notes VALUES(%s,%s,%s,%s);
                                       """
                     args = (course, sem, filename, file)
-                    curse.execute(sql,args)
+                    curse.execute(sql, args)
                     conn.commit()
                     return True
 
-    def get_notes(self,course,sem):
+    def get_notes(self, course, sem):
         self.connect()
         with self.connection as conn:
             with conn.cursor() as curse:
                 sql = """
-                                                              SELECT count(*) FROM questions;
+                                                              SELECT count(*) FROM notes;
                                                               """
                 curse.execute(sql)
                 response = list(curse.fetchall())
                 if response is None:
                     return response
-                else :
-                    sql =   """
+                else:
+                    sql = """
                     SELECT * FROM notes where course = %s AND semester = %s;
                     """
-                    args = (course,sem)
-                    curse.execute(sql,args)
+                    args = (course, sem)
+                    curse.execute(sql, args)
                     response = list(curse.fetchall())
                     data = []
                     for i in response:
-                        data.append({'notesName':i[2],'notesPDF':base64.b64encode(i[3]).decode()})
+                        data.append({'notesName': i[2], 'notesPDF': base64.b64encode(i[3]).decode()})
                     return data
+
+    def add_branches(self, branch):
+        self.connect()
+        with self.connection as conn:
+            with conn.cursor() as curse:
+                # check if table exists
+                sql = """
+                                                             SHOW TABLES LIKE 'branches';
+                                                             """
+                curse.execute(sql)
+                response = list(curse.fetchall())
+                # print("response :", response)
+                # print("blob data :", questionBuffer)
+                id = self.generate_banner_id()  # unique id
+                if not response:
+                    sql = """
+                    CREATE TABLE branches (branch varchar(28));
+                    """
+                    curse.execute(sql)
+
+                    sql = """
+                    INSERT INTO branches VALUES(%s);
+                    """
+                    curse.execute(sql, branch)
+                    conn.commit()
+                    return True
+                else:
+                    sql = """
+                                        INSERT INTO branches VALUES(%s);
+                                        """
+                    curse.execute(sql, branch)
+                    conn.commit()
+                    return True
+
+    def get_branches(self):
+        self.connect()
+        with self.connection as conn:
+            with conn.cursor() as curse:
+                self.connect()
+                with self.connection as conn:
+                    with conn.cursor() as curse:
+                        sql = """
+                                                                             SELECT count(*) FROM branches;
+                                                                             """
+                        curse.execute(sql)
+                        response = list(curse.fetchall())
+                        if response is None:
+                            return response
+                        else :
+                            sql = """
+                            SELECT * FROM branches;
+                            """
+                            curse.execute(sql)
+                            response = list(curse.fetchall())
+                            data = []
+                            for i in response:
+                                data.append(i[0])
+                            return data
 
     def test(self):
         self.connect()

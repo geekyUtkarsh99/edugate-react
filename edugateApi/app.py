@@ -82,6 +82,25 @@ def get_notes():
         return make_response(jsonify({'status': 404, 'notes': []})), 400
 
 
+@app.route('/addbranch', methods=['GET'])
+def add_branch():
+    args = request.args
+    response = mysql.add_branches(args['branch'])
+    if response:
+        return make_response(jsonify({'message': 'added'})), 201
+    else:
+        return make_response(jsonify({'message': 'failed to add'})), 500
+
+
+@app.route('/getbranch', methods=['GET'])
+def get_branch():
+    response = mysql.get_branches()
+    if response is not None:
+        return make_response(jsonify({'status': 200, 'branch': response})), 200
+    else:
+        return make_response(jsonify({'status': 404, 'branch': []})), 404
+
+
 @app.route('/testdatabase', methods=['GET'])
 def testDB():
     if mysql.test():
