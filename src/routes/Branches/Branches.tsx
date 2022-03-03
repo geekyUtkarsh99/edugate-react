@@ -8,7 +8,6 @@ const Branches = () =>{
     const [branches,setBranches] = useState([['mba','bba','mca'],['btech','mtech','ds']])
 
     return(<div className="parent">
-       
    
            {
                branches.map((row)=>{

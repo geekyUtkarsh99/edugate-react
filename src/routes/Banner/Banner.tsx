@@ -55,7 +55,6 @@ return(
 
 
 <div className="parent">
-<meta name="viewport"/>
 
 <text className="text">Click on the below "Upload" button to upload banners(images).</text>
 
