@@ -51,7 +51,11 @@ const Banner = () =>{
 
    
 
-return(<div className="parent">
+return(
+
+
+<div className="parent">
+<meta name="viewport"/>
 
 <text className="text">Click on the below "Upload" button to upload banners(images).</text>
 
@@ -68,7 +72,9 @@ id="contained-button-file"
 onChange={(e)=>{if (window.confirm('Upload document to database ?')) upload(e)}}
 hidden
 />
-</div>)
+</div>
+
+)
 
 }
 

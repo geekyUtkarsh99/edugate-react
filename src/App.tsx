@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import Banner from './routes/Banner/Banner';
 import Navigator from './navigator/Navigation'
-import {Routes,Route,Outlet,Navigate} from 'react-router-dom';
+import {Routes,Route,Outlet,Navigate,Router} from 'react-router-dom';
 import Qpaper from './routes/Question/Qpaper';
 import { Col, Container, Row } from 'react-bootstrap';
 import './navigator/Navigation.css'
@@ -39,7 +39,7 @@ function App() {
     <Container className='App'>
     <SideNav/>
     {/* <Navigator/> */}
-    <Routes>
+    <Routes >
       {/* <Route path='/*' element={<><Navigator /></>}>
       <Route path='banner' element ={<Banner/>}/>
       <Route path='questionpapers' element = {<Qpaper/>}/> 
@@ -50,7 +50,6 @@ function App() {
       <Route path='video' element={<VideoClasses/>}/>
       <Route path='*' element={<Banner/>}/>
       </Route> */}
-     
 
        <Route path='/' element ={<Banner/>}/>
       <Route path='questionpapers' element = {<Qpaper/>}/> 
@@ -59,6 +58,7 @@ function App() {
       <Route path='subjects' element={<Subjects/>}/>
       <Route path='branches' element={<Branches/>}/>
       <Route path='video' element={<VideoClasses/>}/>
+      {/* <Route path='/' element ={<Navigate replace to='/Banner'/> }/> */}
     </Routes>
     </Container>
   );
