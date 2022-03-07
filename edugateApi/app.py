@@ -75,7 +75,8 @@ def add_notes():
 @app.route('/addnotesmbl', methods=['GET', 'POST'])
 def add_notes_mbl():
     args = request.args
-    response = mysql.add_notes_mbl(args['course'], args['sem'], args['filename'], args['file'])
+    filecontent = request.json['file']
+    response = mysql.add_notes_mbl(args['course'], args['sem'], args['filename'], str(filecontent))
     if response:
         return make_response(jsonify({'message': 'added'})), 201
     else:
