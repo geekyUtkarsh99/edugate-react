@@ -76,7 +76,7 @@ def add_notes():
 def add_notes_mbl():
     args = request.args
     filecontent = request.json['file']
-    response = mysql.add_notes_mbl(args['course'], args['sem'], args['filename'],filecontent)
+    response = mysql.add_notes_mbl(args['course'], args['sem'], args['filename'],str(filecontent).encode())
     if response:
         return make_response(jsonify({'message': 'added'})), 201
     else:
