@@ -72,6 +72,16 @@ def add_notes():
         return make_response(jsonify({'message': 'failed to add'})), 500
 
 
+@app.route('/addnotesmbl', methods=['GET', 'POST'])
+def add_notes_mbl():
+    args = request.args
+    response = mysql.add_notes_mbl(args['course'], args['sem'], args['filename'], args['file'])
+    if response:
+        return make_response(jsonify({'message': 'added'})), 201
+    else:
+        return make_response(jsonify({'message': 'failed to add'})), 500
+
+
 @app.route('/getnotes', methods=['GET'])
 def get_notes():
     args = request.args

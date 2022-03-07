@@ -139,6 +139,43 @@ class dbHandler:
                         data.append({'fileName': i[0], 'file': base64.b64encode(i[1]).decode()})
                     return data
 
+    def add_notes_mbl(self,course, sem, filename, file):
+        self.connect()
+        with self.connection as conn:
+            with conn.cursor() as curse:
+                # check if table exists
+                sql = """
+                                                     SHOW TABLES LIKE 'notes';
+                                                     """
+                curse.execute(sql)
+                response = list(curse.fetchall())
+                # print("response :", response)
+                # print("blob data :", questionBuffer)
+                id = self.generate_banner_id()  # unique id
+                if not response:
+                    sql = """
+                           CREATE TABLE notes (course varchar(128) , semester varchar(12), filename varchar(128),
+                           file LONGBLOB);
+                           """
+
+                    curse.execute(sql)
+
+                    sql = """
+                           INSERT INTO notes VALUES(%s,%s,%s,%s);
+                           """
+                    args = (course, sem, filename, base64.decodebytes(file))
+                    curse.execute(sql, args)
+                    conn.commit()
+                    return True
+                else:
+                    sql = """
+                                             INSERT INTO notes VALUES(%s,%s,%s,%s);
+                                             """
+                    args = (course, sem, filename, base64.decodebytes(file))
+                    curse.execute(sql, args)
+                    conn.commit()
+                    return True
+
     def add_notes(self, course, sem, filename, file):
         self.connect()
         with self.connection as conn:
