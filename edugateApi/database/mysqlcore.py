@@ -236,7 +236,7 @@ class dbHandler:
                         data.append({'notesName': i[2], 'notesPDF': base64.b64encode(i[3]).decode()})
                     return data
 
-    def add_branches(self, branch):
+    def add_branches(self, branch,yors):
         self.connect()
         with self.connection as conn:
             with conn.cursor() as curse:
@@ -251,21 +251,23 @@ class dbHandler:
                 id = self.generate_banner_id()  # unique id
                 if not response:
                     sql = """
-                    CREATE TABLE branches (branch varchar(28));
+                    CREATE TABLE branches (branch varchar(28),yors varchar(12));
                     """
                     curse.execute(sql)
 
                     sql = """
-                    INSERT INTO branches VALUES(%s);
+                    INSERT INTO branches VALUES(%s,%s);
                     """
-                    curse.execute(sql, branch)
+                    args = (branch,yors)
+                    curse.execute(sql, args)
                     conn.commit()
                     return True
                 else:
                     sql = """
-                                        INSERT INTO branches VALUES(%s);
-                                        """
-                    curse.execute(sql, branch)
+                                       INSERT INTO branches VALUES(%s,%s);
+                                       """
+                    args = (branch, yors)
+                    curse.execute(sql, args)
                     conn.commit()
                     return True
 
@@ -273,9 +275,6 @@ class dbHandler:
         self.connect()
         with self.connection as conn:
             with conn.cursor() as curse:
-                self.connect()
-                with self.connection as conn:
-                    with conn.cursor() as curse:
                         sql = """
                                                                              SELECT count(*) FROM branches;
                                                                              """
@@ -291,7 +290,7 @@ class dbHandler:
                             response = list(curse.fetchall())
                             data = []
                             for i in response:
-                                data.append(i[0])
+                                data.append({'branch':i[0] , 'yors':i[1]})
                             return data
 
     def test(self):

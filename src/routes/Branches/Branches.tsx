@@ -1,11 +1,46 @@
 import React, { useState } from "react";
 import './Branches.css'
 import { Row,Col } from "react-bootstrap";
+import axios from "axios";
+import { listenerCount } from "process";
 
 
 const Branches = () =>{
 
     const [branches,setBranches] = useState([['mba','bba','mca'],['btech','mtech','ds']])
+    const [open,setOpen] = useState(false)
+
+    const [branch,setBranch] = useState('')
+    const [yors,setyors] = useState(0)
+
+    const addNewBranch = ()=>{
+
+        if (branch !== "" && yors !== 0)
+        axios.get('http://64.227.161.183/addbranch',{
+            params:{
+                branch:branch, //branch
+                yors:yors      //year/sem
+            }
+        }).catch(error=>{
+            console.log("error branches : "+ error)
+        }).then(res=>{
+    
+            var last:string[] = []
+            for (var i = 0 ; i < branches.length ; i++ ){
+             last = branches[i]
+             if (last.length >= 3){
+                 branches.push([branch])
+             }else {
+                branches[i].push(branch)
+             }
+            }
+
+            console.log("branch res : "+ res)
+        
+        })
+     
+
+    }
 
     return(<div className="parent">
    
@@ -19,7 +54,31 @@ const Branches = () =>{
                })
            }
 
-           <button className="addbtn">Add a Branch...</button>
+           <button className="addbtn" onClick={()=>{setOpen(!open)}}>Add a Branch...</button>
+
+
+           <dialog open = {open} className="branchdialog">
+
+               <div className="dialogself">
+
+                   <button onClick={()=>{setOpen(!open)}}>X</button>
+
+
+                   <text>Enter Branch name</text>
+
+                   <input type="text" value={branch}></input>
+
+                   <text>Enter number of semesters/years</text>
+                   <input type="number" value={yors}></input>
+
+                <button onClick={()=>{addNewBranch()}}>Submit</button>
+
+               </div>
+
+               
+
+           </dialog>
+
     
     </div>)
 }

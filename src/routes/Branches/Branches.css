@@ -6,6 +6,36 @@
     align-items: center;
     }
 
+
+.branchdialog{
+  
+position: absolute;
+z-index: 1;
+background: rgba(0, 0, 0, 0.103);
+border-color: rgba(0, 0, 0, 0);
+height: 100%;
+width: 100%;
+justify-content: center;
+align-items: center;
+align-content: center;
+
+}
+
+.dialogself{
+
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    background: white;
+    top: 25%;
+    right: 40%;
+    height: 16rem;
+    width: 16rem;
+    align-items: center;
+
+}
+
+
 .branch{
     display: inline-block;
     position: relative;

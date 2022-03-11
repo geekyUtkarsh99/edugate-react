@@ -55,7 +55,7 @@ return(
 
 
 <div className="parent">
-
+<meta name="viewport" content="width=device-width"/>
 <text className="text">Click on the below "Upload" button to upload banners(images).</text>
 
 
