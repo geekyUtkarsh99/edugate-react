@@ -28,13 +28,14 @@ const Branches = () =>{
             var last:string[] = []
             for (var i = 0 ; i < branches.length ; i++ ){
              last = branches[i]
-             if (last.length >= 3){
-                 branches.push([branch])
-             }else {
-                branches[i].push(branch)
-             }
+        
             }
-
+            if (last.length >= 3){
+                branches.push([branch])
+            }else {
+               branches[i].push(branch)
+            }
+            setOpen(!open)
             console.log("branch res : "+ res)
         
         })
