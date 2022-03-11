@@ -76,7 +76,7 @@ def add_notes():
 def add_notes_mbl():
     args = request.args
     filecontent = request.json['file']
-    response = mysql.add_notes_mbl(args['course'], args['sem'], args['filename'],str(filecontent).encode())
+    response = mysql.add_notes_mbl(args['course'], args['sem'], args['filename'], str(filecontent).encode())
     if response:
         return make_response(jsonify({'message': 'added'})), 201
     else:
@@ -96,7 +96,7 @@ def get_notes():
 @app.route('/addbranch', methods=['GET'])
 def add_branch():
     args = request.args
-    response = mysql.add_branches(args['branch'],args['yors'])
+    response = mysql.add_branches(args['branch'], args['yors'])
     if response:
         return make_response(jsonify({'message': 'added'})), 201
     else:
@@ -111,6 +111,19 @@ def get_branch():
         return make_response(jsonify({'status': 200, 'branch': response})), 200
     else:
         return make_response(jsonify({'status': 404, 'branch': []})), 404
+
+
+@app.route('/adduser', methods=['GET'])
+def add_user():
+    args = request.args
+    if mysql.check_userexist(args['user']):
+        response = mysql.new_admin(args['user'], args['pwd'])
+        if response:
+            return make_response(jsonify({'message': 'added'})), 201
+        else:
+            return make_response(jsonify({'message': 'something went wrong'})), 500
+    else:
+        return make_response(jsonify({'message': 'user exists'})), 503
 
 
 @app.route('/testdatabase', methods=['GET'])

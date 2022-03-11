@@ -1,5 +1,5 @@
 import base64
-
+from werkzeug.security import check_password_hash, generate_password_hash
 import pymysql
 import random
 import string
@@ -139,7 +139,7 @@ class dbHandler:
                         data.append({'fileName': i[0], 'file': base64.b64encode(i[1]).decode()})
                     return data
 
-    def add_notes_mbl(self,course, sem, filename, file):
+    def add_notes_mbl(self, course, sem, filename, file):
         self.connect()
         with self.connection as conn:
             with conn.cursor() as curse:
@@ -236,7 +236,7 @@ class dbHandler:
                         data.append({'notesName': i[2], 'notesPDF': base64.b64encode(i[3]).decode()})
                     return data
 
-    def add_branches(self, branch,yors):
+    def add_branches(self, branch, yors):
         self.connect()
         with self.connection as conn:
             with conn.cursor() as curse:
@@ -258,7 +258,7 @@ class dbHandler:
                     sql = """
                     INSERT INTO branches VALUES(%s,%s);
                     """
-                    args = (branch,yors)
+                    args = (branch, yors)
                     curse.execute(sql, args)
                     conn.commit()
                     return True
@@ -275,23 +275,81 @@ class dbHandler:
         self.connect()
         with self.connection as conn:
             with conn.cursor() as curse:
-                        sql = """
+                sql = """
                                                                              SELECT count(*) FROM branches;
                                                                              """
-                        curse.execute(sql)
-                        response = list(curse.fetchall())
-                        if response is None:
-                            return response
-                        else :
-                            sql = """
+                curse.execute(sql)
+                response = list(curse.fetchall())
+                if response is None:
+                    return response
+                else:
+                    sql = """
                             SELECT * FROM branches;
                             """
-                            curse.execute(sql)
-                            response = list(curse.fetchall())
-                            data = []
-                            for i in response:
-                                data.append({'branch':i[0] , 'yors':i[1]})
-                            return data
+                    curse.execute(sql)
+                    response = list(curse.fetchall())
+                    data = []
+                    for i in response:
+                        data.append({'branch': i[0], 'yors': i[1]})
+                    return data
+
+    @staticmethod
+    def gen_uniqueid():
+        len = 16
+        return "".join(random.choices(string.ascii_uppercase + string.digits, k=len))
+
+    def check_userexist(self, uname):
+        self.connect()
+        with self.connection as conn:
+            with conn.cursor() as curse:
+                sql = """
+                SELECT * FROM admins WHERE uname = %s;
+                """
+                response = curse.execute(sql)
+                if response is not None:
+                    return False
+                else:
+                    return True
+
+    def new_admin(self, user, pwd):
+        self.connect()
+        with self.connection as conn:
+            with conn.cursor() as curse:
+                # check if table exists
+                sql = """
+                                                            SHOW TABLES LIKE 'admins';
+                                                            """
+                curse.execute(sql)
+                response = list(curse.fetchall())
+                # print("response :", response)
+                # print("blob data :", questionBuffer)
+                id = self.generate_banner_id()  # unique id
+                if not response:
+                    sql = """
+                    CREATE TABLE admins(uid varchar(128) primary key, uname varchar(28),ups varchar(128),tkns varchar(128));
+                    """
+                    curse.execute(sql)
+                    hashpass = generate_password_hash(pwd)
+                    sql = """
+                    INSERT INTO admins VALUES(%s,%s,%s,%s);
+                    """
+                    args = (user, hashpass, self.gen_uniqueid(), "")
+                    curse.execute(sql, args)
+                    conn.commit()
+                    return True
+                else:
+                    hashpass = generate_password_hash(pwd)
+                    sql = """
+                                       INSERT INTO admins VALUES(%s,%s,%s,%s);
+                                       """
+                    args = (user, hashpass, self.gen_uniqueid(), "")
+                    curse.execute(sql, args)
+                    conn.commit()
+                    return True
+
+    def gen_uniqueid(self):
+        len = 16
+        return "".join(random.choices(string.ascii_uppercase + string.digits, k=len))
 
     def test(self):
         self.connect()
