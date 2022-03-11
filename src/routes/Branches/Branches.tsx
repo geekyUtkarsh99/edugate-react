@@ -36,6 +36,8 @@ const Branches = () =>{
                branches[i].push(branch)
             }
             setOpen(!open)
+            setBranch('')
+            setyors('')
             console.log("branch res : "+ res)
         
         })
