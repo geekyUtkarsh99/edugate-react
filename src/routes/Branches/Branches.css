@@ -29,12 +29,17 @@ align-content: center;
     background: white;
     top: 25%;
     right: 40%;
-    height: 16rem;
-    width: 16rem;
+   padding: 12px;
     align-items: center;
 
 }
 
+.subdialogcomp{
+
+width: 100%;
+
+
+}
 
 .branch{
     display: inline-block;

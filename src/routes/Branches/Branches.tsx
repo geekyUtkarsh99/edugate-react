@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { SetStateAction, useState } from "react";
 import './Branches.css'
 import { Row,Col } from "react-bootstrap";
 import axios from "axios";
@@ -11,11 +11,11 @@ const Branches = () =>{
     const [open,setOpen] = useState(false)
 
     const [branch,setBranch] = useState('')
-    const [yors,setyors] = useState(0)
+    const [yors,setyors] = useState('')
 
     const addNewBranch = ()=>{
 
-        if (branch !== "" && yors !== 0)
+        if (branch !== "" && yors !== '')
         axios.get('http://64.227.161.183/addbranch',{
             params:{
                 branch:branch, //branch
@@ -61,15 +61,16 @@ const Branches = () =>{
 
                <div className="dialogself">
 
+                   <div className="subdialogcomp">
                    <button onClick={()=>{setOpen(!open)}}>X</button>
-
-
+                   </div>
+           
                    <text>Enter Branch name</text>
 
-                   <input type="text" value={branch}></input>
+                   <input type="text" onChange={(e)=>{setBranch(e.target.value)}}></input>
 
                    <text>Enter number of semesters/years</text>
-                   <input type="number" value={yors}></input>
+                   <input type="number" onChange={(e)=>{setyors(e.target.value)}}></input>
 
                 <button onClick={()=>{addNewBranch()}}>Submit</button>
 
