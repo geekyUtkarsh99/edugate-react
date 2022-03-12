@@ -33,13 +33,15 @@ return(
 
 }
 
-const loginDialog =(state)=>{
+const loginDialog =(state:boolean)=>{
 
-  return(<>
-  
-  
+  return(<dialog open={state} className ="dialoglogin">
 
-  </>);
+<div className='dialoginterns'>
+<text>Login</text>
+</div>
+
+  </dialog>);
 
 }
 

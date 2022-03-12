@@ -3,4 +3,18 @@ display: flex;
 flex-direction: row;
 }
 
+.dialoglogin{
+    display: flex;
+    position: absolute;
+    z-index: 1;
+    height: 100vh;
+    width: 100vw;
+}
+
+.dialoginterns{
+
+display: flex;
+
+}
+
 
