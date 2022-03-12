@@ -303,9 +303,9 @@ class dbHandler:
         with self.connection as conn:
             with conn.cursor() as curse:
                 sql = """
-                SELECT * FROM admins WHERE uname = %s;
+                SELECT * FROM admins WHERE uname = %s ;
                 """
-                curse.execute(sql)
+                curse.execute(sql,uname)
                 response = list(curse.fetchall())
                 if response is not None:
                     return False
