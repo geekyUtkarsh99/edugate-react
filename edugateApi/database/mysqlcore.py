@@ -307,6 +307,7 @@ class dbHandler:
                 """
                 curse.execute(sql,uname)
                 response = list(curse.fetchall())
+                print("user existence : ",response)
                 if response is not None:
                     return False
                 else:
