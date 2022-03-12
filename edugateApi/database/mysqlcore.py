@@ -363,7 +363,7 @@ class dbHandler:
                 curse.execute(sql, user)
                 response = list(curse.fetchall())
                 print("login res1 : ",response)
-                if response is None:
+                if response is []:
                     return [False]
                 # check hash
                 if check_password_hash(response[0][0], pwd):
