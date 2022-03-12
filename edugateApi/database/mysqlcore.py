@@ -362,6 +362,7 @@ class dbHandler:
                 """
                 curse.execute(sql, user)
                 response = list(curse.fetchall())
+                print("login res1 : ",response)
                 if response is None:
                     return [False]
                 # check hash
