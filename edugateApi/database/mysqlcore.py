@@ -387,7 +387,7 @@ class dbHandler:
         with self.connection as conn:
             with conn.cursor() as curse:
                 sql = """
-                UPDATE admins SET tkn = "" WHERE uid = %s
+                UPDATE admins SET tkns = "" WHERE uid = %s
                 """
                 curse.execute(sql,uid)
                 return True
