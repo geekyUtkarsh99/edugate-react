@@ -133,7 +133,17 @@ def login():
     if response[0]:
         return make_response(jsonify({'tkn': response[1], 'uid': response[2], 'status': 200})), 200
     else:
-        return make_response(jsonify({'tkn': '', 'uid': '', 'status': 500})),500
+        return make_response(jsonify({'tkn': '', 'uid': '', 'status': 500})), 500
+
+
+@app.route('/logout', methods=['GET'])
+def log_out():
+    args = request.args
+    response = mysql.log_out(args['uid'])
+    if response:
+        return make_response(jsonify({'message': 'log out'})), 200
+    else:
+        return make_response(jsonify({'message': 'unable to logout'})), 500
 
 
 @app.route('/testdatabase', methods=['GET'])

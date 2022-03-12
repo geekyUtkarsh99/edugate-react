@@ -58,7 +58,7 @@ class dbHandler:
                     return True
 
     def get_banners(self):
-        self.connect()
+        self.connect()  # revoke
         with self.connection as conn:
             with conn.cursor() as curse:
                 sql = """
@@ -81,7 +81,7 @@ class dbHandler:
                     return data
 
     def add_Questions(self, questionBuffer, filename, year, course, sem, lang):
-        self.connect()
+        self.connect()  # revoke
         with self.connection as conn:
             with conn.cursor() as curse:
                 # check if table exists
@@ -117,7 +117,7 @@ class dbHandler:
                     return True
 
     def get_questions(self, year, lang, course, sem):
-        self.connect()
+        self.connect()  # revoke
         with self.connection as conn:
             with conn.cursor() as curse:
                 sql = """
@@ -140,7 +140,7 @@ class dbHandler:
                     return data
 
     def add_notes_mbl(self, course, sem, filename, file):
-        self.connect()
+        self.connect()  # revoke
         with self.connection as conn:
             with conn.cursor() as curse:
                 # check if table exists
@@ -177,7 +177,7 @@ class dbHandler:
                     return True
 
     def add_notes(self, course, sem, filename, file):
-        self.connect()
+        self.connect()  # revoke
         with self.connection as conn:
             with conn.cursor() as curse:
                 # check if table exists
@@ -214,7 +214,7 @@ class dbHandler:
                     return True
 
     def get_notes(self, course, sem):
-        self.connect()
+        self.connect()  # revoke
         with self.connection as conn:
             with conn.cursor() as curse:
                 sql = """
@@ -237,7 +237,7 @@ class dbHandler:
                     return data
 
     def add_branches(self, branch, yors):
-        self.connect()
+        self.connect()  # revoke
         with self.connection as conn:
             with conn.cursor() as curse:
                 # check if table exists
@@ -272,7 +272,7 @@ class dbHandler:
                     return True
 
     def get_branches(self):
-        self.connect()
+        self.connect()  # revoke
         with self.connection as conn:
             with conn.cursor() as curse:
                 sql = """
@@ -299,22 +299,22 @@ class dbHandler:
         return "".join(random.choices(string.ascii_uppercase + string.digits, k=len))
 
     def check_userexist(self, uname):
-        self.connect()
+        self.connect()  # revoke
         with self.connection as conn:
             with conn.cursor() as curse:
                 sql = """
                 SELECT * FROM admins WHERE uname = %s ;
                 """
-                curse.execute(sql,uname)
+                curse.execute(sql, uname)
                 response = list(curse.fetchall())
-                print("user existence : ",response)
+                print("user existence : ", response)
                 if response is []:
                     return False
                 else:
                     return True
 
     def new_admin(self, user, pwd):
-        self.connect()
+        self.connect()  # revoke
         with self.connection as conn:
             with conn.cursor() as curse:
                 # check if table exists
@@ -350,11 +350,15 @@ class dbHandler:
                     return True
 
     def gen_login_token(self, user):
-        ln = 12
-        return str(user).join(random.choices(string.ascii_uppercase + string.digits, k=ln))
+        ln = 6
+        let = ''
+        for i in user:
+            if len(let) < 2:
+                let += i
+        return str(let).join(random.choices(string.ascii_uppercase + string.digits, k=ln))
 
     def login(self, user, pwd):
-        self.connect()
+        self.connect()  # revoke
         with self.connection as conn:
             with conn.cursor() as curse:
                 sql = """
@@ -362,7 +366,7 @@ class dbHandler:
                 """
                 curse.execute(sql, user)
                 response = list(curse.fetchall())
-                print("login res1 : ",response)
+                print("login res1 : ", response)
                 if response is []:
                     return [False]
                 # check hash
@@ -377,6 +381,31 @@ class dbHandler:
                     return [True, tkn, response[0][1]]
                 else:
                     return [False]
+
+    def log_out(self,uid):
+        self.connect()  # revoke
+        with self.connection as conn:
+            with conn.cursor() as curse:
+                sql = """
+                UPDATE admins SET tkn = "" WHERE uid = %s
+                """
+                curse.execute(sql,uid)
+                return True
+
+    def verify_secure(self, uid, tkn):
+        self.connect()  # revoke
+        with self.connection as conn:
+            with conn.cursor() as curse:
+                sql = """
+                SELECT uname from admins where uid = %s AND tkn = %s;
+                """
+                args = (uid, tkn)
+                curse.execute(sql, args)
+                response = list(curse.fetchall())
+                if response is []:
+                    return False
+                else:
+                    return True
 
     def test(self):
         self.connect()
