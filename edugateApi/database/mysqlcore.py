@@ -305,7 +305,8 @@ class dbHandler:
                 sql = """
                 SELECT * FROM admins WHERE uname = %s;
                 """
-                response = curse.execute(sql)
+                curse.execute(sql)
+                response = list(curse.fetchall())
                 if response is not None:
                     return False
                 else:
@@ -333,7 +334,7 @@ class dbHandler:
                     sql = """
                     INSERT INTO admins VALUES(%s,%s,%s,%s);
                     """
-                    args = (user, hashpass, self.gen_uniqueid(), "")
+                    args = (self.gen_uniqueid(), user, hashpass, "")
                     curse.execute(sql, args)
                     conn.commit()
                     return True
@@ -342,14 +343,38 @@ class dbHandler:
                     sql = """
                                        INSERT INTO admins VALUES(%s,%s,%s,%s);
                                        """
-                    args = (user, hashpass, self.gen_uniqueid(), "")
+                    args = (self.gen_uniqueid(), user, hashpass, "")
                     curse.execute(sql, args)
                     conn.commit()
                     return True
 
-    def gen_uniqueid(self):
-        len = 16
-        return "".join(random.choices(string.ascii_uppercase + string.digits, k=len))
+    def gen_login_token(self, user):
+        ln = 12
+        return str(user).join(random.choices(string.ascii_uppercase + string.digits, k=ln))
+
+    def login(self, user, pwd):
+        self.connect()
+        with self.connection as conn:
+            with conn.cursor() as curse:
+                sql = """
+                SELECT ups,uid FROM admins where uname = %s ;
+                """
+                curse.execute(sql, user)
+                response = list(curse.fetchall())
+                if response is None:
+                    return [False]
+                # check hash
+                if check_password_hash(response[0][0], pwd):
+                    tkn = self.gen_login_token(user)
+                    sql = """
+                    UPDATE admins SET tkns = %s WHERE uname = %s; 
+                    """
+                    args = (tkn, user)
+                    curse.execute(sql, args)
+                    conn.commit()
+                    return [True, tkn, response[0][1]]
+                else:
+                    return [False]
 
     def test(self):
         self.connect()

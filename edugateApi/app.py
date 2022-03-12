@@ -123,7 +123,17 @@ def add_user():
         else:
             return make_response(jsonify({'message': 'something went wrong'})), 500
     else:
-        return make_response(jsonify({'message': 'user exists'})), 503
+        return make_response(jsonify({'message': 'user exists'})), 500
+
+
+@app.route('/login', methods=['POST', 'GET'])
+def login():
+    args = request.args
+    response = mysql.login(args['uname'], args['pwd'])
+    if response[0]:
+        return make_response(jsonify({'tkn': response[1], 'uid': response[2], 'status': 200})), 200
+    else:
+        return make_response(jsonify({'tkn': '', 'uid': '', 'status': 500})),500
 
 
 @app.route('/testdatabase', methods=['GET'])
