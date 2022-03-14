@@ -21,15 +21,43 @@ align-content: center;
 
 }
 
+.edittext{
+    background-color: rgba(255, 255, 255, 0.233);
+    color: rgba(255, 255, 255, 0.493);
+    margin: 6px;
+}
+
+.butn{
+    position: relative;
+    background: #011FA3;
+    color: white;
+    padding-left: 6px;
+    padding-right: 6px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    border-radius: 6px;
+    border-style:ridge;
+    border-color: #011FA3;
+    margin: 6px;
+}
+
+.dialtext{
+
+color: white;
+
+}
+
 .dialogself{
 
     display: flex;
     flex-direction: column;
     position: fixed;
-    background: white;
+    background: black;
+    border: solid 2px white;
+    border-radius: 6px;
     top: 25%;
     right: 40%;
-   padding: 12px;
+   padding: 6px;
     align-items: center;
 
 }

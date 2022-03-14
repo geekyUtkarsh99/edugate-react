@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Banner from './routes/Banner/Banner';
 import Navigator from './navigator/Navigation'
 import {Routes,Route,Outlet,Navigate,Router} from 'react-router-dom';
 import Qpaper from './routes/Question/Qpaper';
-import { Col, Container, Row } from 'react-bootstrap';
+import { Anchor, Col, Container, Row } from 'react-bootstrap';
 import './navigator/Navigation.css'
 import Notes from './routes/Notes/Notes';
 import Paid from './routes/Paid/Paid'
@@ -33,20 +33,46 @@ return(
 
 }
 
-const loginDialog =(state:boolean)=>{
 
-  return(<dialog open={state} className ="dialoglogin">
-
-<div className='dialoginterns'>
-<text>Login</text>
-</div>
-
-  </dialog>);
-
-}
 
 
 function App() {
+
+  const [loginopen,setLoginOpen] = useState(false)
+
+  const loginDialog =(state:boolean)=>{
+
+    return(<dialog open={false} className ="dialoglogin">
+  
+  <div className='dialoginterns'>
+  <text className='txt'>Login</text>
+  
+  <input className='edittext' type="text" placeholder='username/email'></input>
+  
+  <input className='edittext' type="text" placeholder='password'></input>
+  
+  <button className='butn'  onClick={()=>{setLoginOpen(false)}}>Login</button>
+  
+  <div style={{
+    "display":"flex",
+    "flexDirection":"row",
+    "margin":"6px"
+  }}>
+  <text className='txt'>don't have an account ?</text>
+  <Anchor onClick={()=>{setLoginOpen(false)}}>Sign up</Anchor>
+  </div>
+  
+  
+  
+  
+  
+  
+  </div>
+  
+    </dialog>);
+  
+  }
+
   return (
     <Container className='App'>
     <SideNav/>
@@ -72,7 +98,7 @@ function App() {
       <Route path='video' element={<VideoClasses/>}/>
       {/* <Route path='/' element ={<Navigate replace to='/Banner'/> }/> */}
     </Routes>
-
+    {/* {loginDialog(false)}  */}
     </Container>
   );
 }

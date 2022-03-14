@@ -4,6 +4,8 @@ flex-direction: row;
 }
 
 .dialoglogin{
+    background: rgba(0, 0, 0, 0.050);
+border-color: rgba(0, 0, 0, 0);
     display: flex;
     position: absolute;
     z-index: 1;
@@ -14,7 +16,39 @@ flex-direction: row;
 .dialoginterns{
 
 display: flex;
+flex-direction: column;
+position: fixed;
+align-items: center;
+border: solid 2px white;
+border-radius: 5px;
+top:35%;
+left: 40%;
+background-color: black;
+padding: 6px;
 
 }
 
+.txt{
+    color: white;
+}
+
+.edittext{
+    background-color: rgba(255, 255, 255, 0.233);
+    color: rgba(255, 255, 255, 0.493);
+    margin: 6px;
+}
+
+.butn{
+    position: relative;
+    background: #011FA3;
+    color: white;
+    padding-left: 6px;
+    padding-right: 6px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    border-radius: 6px;
+    border-style:ridge;
+    border-color: #011FA3;
+    margin: 6px;
+}
 

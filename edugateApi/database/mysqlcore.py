@@ -236,7 +236,21 @@ class dbHandler:
                         data.append({'notesName': i[2], 'notesPDF': base64.b64encode(i[3]).decode()})
                     return data
 
-    def add_branches(self, branch, yors):
+    def check_branch_exists(self, branch):
+        self.connect()  # revoke
+        with self.connection as conn:
+            with conn.cursor() as curse:
+                sql = """
+                SELECT * FROM branches WHERE branch = %s;
+                """
+                curse.execute(sql, branch)
+                response = list(curse.fetchall())
+                if response is []:
+                    return False
+                else:
+                    return True
+
+    def add_branches(self, branch, sem, year):
         self.connect()  # revoke
         with self.connection as conn:
             with conn.cursor() as curse:
@@ -251,25 +265,27 @@ class dbHandler:
                 id = self.generate_banner_id()  # unique id
                 if not response:
                     sql = """
-                    CREATE TABLE branches (branch varchar(28),yors varchar(12));
+                    CREATE TABLE branches (branch varchar(28),sem varchar(12),year varchar(12));
                     """
                     curse.execute(sql)
 
                     sql = """
-                    INSERT INTO branches VALUES(%s,%s);
+                    INSERT INTO branches VALUES(%s,%s,%s);
                     """
-                    args = (branch, yors)
+                    args = (branch, sem, year)
                     curse.execute(sql, args)
                     conn.commit()
                     return True
                 else:
-                    sql = """
-                                       INSERT INTO branches VALUES(%s,%s);
+                    if self.check_branch_exists(branch):
+                        sql = """
+                                       INSERT INTO branches VALUES(%s,%s,%s);
                                        """
-                    args = (branch, yors)
-                    curse.execute(sql, args)
-                    conn.commit()
-                    return True
+                        args = (branch, sem, year)
+                        curse.execute(sql, args)
+                        conn.commit()
+                        return True
+                return False
 
     def get_branches(self):
         self.connect()  # revoke
@@ -290,7 +306,7 @@ class dbHandler:
                     response = list(curse.fetchall())
                     data = []
                     for i in response:
-                        data.append({'branch': i[0], 'yors': i[1]})
+                        data.append({'branch': i[0], 'sem': i[1], 'year': i[2]})
                     return data
 
     @staticmethod
@@ -382,14 +398,14 @@ class dbHandler:
                 else:
                     return [False]
 
-    def log_out(self,uid):
+    def log_out(self, uid):
         self.connect()  # revoke
         with self.connection as conn:
             with conn.cursor() as curse:
                 sql = """
                 UPDATE admins SET tkns = NULL WHERE uid = %s;
                 """
-                curse.execute(sql,uid)
+                curse.execute(sql, uid)
                 return True
 
     def verify_secure(self, uid, tkn):

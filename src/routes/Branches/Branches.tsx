@@ -11,7 +11,8 @@ const Branches = () =>{
     const [open,setOpen] = useState(false)
 
     const [branch,setBranch] = useState('')
-    const [yors,setyors] = useState('')
+    const [yors,setsems] = useState('')
+    const [year,setyear] = useState('')
 
     const addNewBranch = ()=>{
 
@@ -19,7 +20,7 @@ const Branches = () =>{
         axios.get('http://64.227.161.183/addbranch',{
             params:{
                 branch:branch, //branch
-                yors:yors      //year/sem
+                sem:yors      //sem
             }
         }).catch(error=>{
             console.log("error branches : "+ error)
@@ -37,7 +38,7 @@ const Branches = () =>{
             }
             setOpen(!open)
             setBranch('')
-            setyors('')
+            setsems('')
             console.log("branch res : "+ res)
         
         })
@@ -65,17 +66,21 @@ const Branches = () =>{
                <div className="dialogself">
 
                    <div className="subdialogcomp">
-                   <button onClick={()=>{setOpen(!open)}}>X</button>
+                   <button className="butn" onClick={()=>{setOpen(!open)}}>X</button>
                    </div>
            
-                   <text>Enter Branch name</text>
+                   <text className="dialtext">Enter Branch name</text>
 
-                   <input type="text" onChange={(e)=>{setBranch(e.target.value)}}></input>
+                   <input className="edittext" type="text" onChange={(e)=>{setBranch(e.target.value)}}></input>
 
-                   <text>Enter number of semesters/years</text>
-                   <input type="number" onChange={(e)=>{setyors(e.target.value)}}></input>
+                   <text className="dialtext">Enter number of semesters</text>
+                   <input className="edittext" type="number" onChange={(e)=>{setsems(e.target.value)}}></input>
 
-                <button onClick={()=>{addNewBranch()}}>Submit</button>
+                   <text className="dialtext">Enter number of Years</text>
+                   <input className="edittext" type="number" onChange={(e)=>{setyear(e.target.value)}}></input>
+
+
+                <button className="butn" onClick={()=>{addNewBranch()}}>Submit</button>
 
                </div>
 
