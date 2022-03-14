@@ -27,6 +27,7 @@ const Branches = () =>{
     const [sem,setsems] = useState('')
     const [year,setyear] = useState('')
 
+
     if (!didRun)
     axios.get<branches>('http://64.227.161.183/getbranch').then(
         res=>{
@@ -57,6 +58,37 @@ const Branches = () =>{
         setDidRun(true)
     })
 
+    const refresh =()=>{
+        axios.get<branches>('http://64.227.161.183/getbranch').then(
+            res=>{
+               setBRC(res.data)
+               console.log("branches rec : "+brc?.branch[0].branch)
+               var list:string[] = []
+               if (brc?.branch.length !== undefined)
+               if (brc?.branch.length > 3){
+               brc.branch.forEach(branch=>{
+                 
+                   if (list.length < 3){
+                       list.push(branch.branch)
+                   }else {
+                       setBranches(old =>[...old,list])
+                       list = [] //refresh
+                   }
+               })
+            }else {
+               brc.branch.forEach(branch=>{
+                   list.push(branch.branch)
+               })
+               setBranches(old =>[...old,list])
+            }
+               setDidRun(true)
+            }
+        ).catch(exp=>{
+            console.log("axios error : " + exp)
+            setDidRun(true)
+        })
+    }
+
     const addNewBranch = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>)=>{
 
         if (branch !== "" && sem !== '' && year !== '')
@@ -86,7 +118,7 @@ const Branches = () =>{
             setBranch('')
             setsems('')
             setyear('')
-            setDidRun(false)
+            refresh()
             console.log("branch res : "+ res)
         
         })
