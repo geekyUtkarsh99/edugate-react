@@ -32,37 +32,37 @@ const Branches = () =>{
     //     return ()=>{setDidRun(true)}
     // },[])
 
-    if (!didRun)
-        axios.get<branches>('http://64.227.161.183/getbranch').then(
-            res=>{
-               setBRC(res.data)
-               console.log("branches rec : "+brc?.branch[0].branch)
-               var list:string[] = []
-               if (brc?.branch.length !== undefined)
-               if (brc?.branch.length > 3){
-               brc.branch.forEach(branch=>{
+    // if (!didRun)
+    //     axios.get<branches>('http://64.227.161.183/getbranch').then(
+    //         res=>{
+    //            setBRC(res.data)
+    //            console.log("branches rec : "+brc?.branch[0].branch)
+    //            var list:string[] = []
+    //            if (brc?.branch.length !== undefined)
+    //            if (brc?.branch.length > 3){
+    //            brc.branch.forEach(branch=>{
                  
-                   if (list.length < 3){
-                       list.push(branch.branch)
-                   }else {
-                       branches.push(list)
-                       list = [] //refresh
-                   }
-               })
-            }else {
-               brc.branch.forEach(branch=>{
-                   list.push(branch.branch)
-               })
-               branches.push(list)
-            }
+    //                if (list.length < 3){
+    //                    list.push(branch.branch)
+    //                }else {
+    //                    branches.push(list)
+    //                    list = [] //refresh
+    //                }
+    //            })
+    //         }else {
+    //            brc.branch.forEach(branch=>{
+    //                list.push(branch.branch)
+    //            })
+    //            branches.push(list)
+    //         }
         
-               setDidRun(true)
-               window.location.reload()
-            }
-        ).catch(exp=>{
-            console.log("axios error : " + exp)
-            setDidRun(true)
-        })
+    //            setDidRun(true)
+    //            window.location.reload()
+    //         }
+    //     ).catch(exp=>{
+    //         console.log("axios error : " + exp)
+    //         setDidRun(true)
+    //     })
 
 
     const refresh =()=>{
