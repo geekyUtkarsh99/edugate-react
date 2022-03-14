@@ -1,4 +1,4 @@
-import React, { SetStateAction, useState } from "react";
+import React, { SetStateAction, useEffect, useState } from "react";
 import './Branches.css'
 import { Row,Col } from "react-bootstrap";
 import axios from "axios";
@@ -27,36 +27,41 @@ const Branches = () =>{
     const [sem,setsems] = useState('')
     const [year,setyear] = useState('')
 
-
-    if (!didRun)
-    axios.get<branches>('http://64.227.161.183/getbranch').then(
-        res=>{
-           setBRC(res.data)
-           console.log("branches rec : "+brc?.branch[0].branch)
-           var list:string[] = []
-           if (brc?.branch.length !== undefined)
-           if (brc?.branch.length > 3){
-           brc.branch.forEach(branch=>{
-             
-               if (list.length < 3){
+    useEffect(()=>{
+        axios.get<branches>('http://64.227.161.183/getbranch').then(
+            res=>{
+               setBRC(res.data)
+               console.log("branches rec : "+brc?.branch[0].branch)
+               var list:string[] = []
+               if (brc?.branch.length !== undefined)
+               if (brc?.branch.length > 3){
+               brc.branch.forEach(branch=>{
+                 
+                   if (list.length < 3){
+                       list.push(branch.branch)
+                   }else {
+                       branches.push(list)
+                       list = [] //refresh
+                   }
+               })
+            }else {
+               brc.branch.forEach(branch=>{
                    list.push(branch.branch)
-               }else {
-                   branches.push(list)
-                   list = [] //refresh
-               }
-           })
-        }else {
-           brc.branch.forEach(branch=>{
-               list.push(branch.branch)
-           })
-           branches.push(list)
-        }
-           setDidRun(true)
-        }
-    ).catch(exp=>{
-        console.log("axios error : " + exp)
-        setDidRun(true)
-    })
+               })
+               branches.push(list)
+            }
+        
+               setDidRun(true)
+               window.location.reload()
+            }
+        ).catch(exp=>{
+            console.log("axios error : " + exp)
+            setDidRun(true)
+        })
+    },[])
+
+    // if (!didRun)
+   
 
     const refresh =()=>{
         axios.get<branches>('http://64.227.161.183/getbranch').then(
