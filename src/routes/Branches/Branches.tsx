@@ -21,18 +21,22 @@ const Branches = () =>{
     const [branches,setBranches] = useState([['mba','bba','mca'],['btech','mtech','ds']])
     const [open,setOpen] = useState(false)
     const [brc,setBRC] = useState<branches>()
+    const [didRun,setDidRun] = useState(false)
 
     const [branch,setBranch] = useState('')
     const [sem,setsems] = useState('')
     const [year,setyear] = useState('')
 
+    if (!didRun)
     axios.get<branches>('http://64.227.161.183/getbranch').then(
         res=>{
            setBRC(res.data)
            console.log("branches rec : "+brc)
+           setDidRun(true)
         }
     ).catch(exp=>{
         console.log("axios error : " + exp)
+        setDidRun(true)
     })
 
     const addNewBranch = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>)=>{
