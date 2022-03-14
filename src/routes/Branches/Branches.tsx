@@ -18,7 +18,7 @@ interface branches{
 
 const Branches = () =>{
 
-    const [branches,setBranches] = useState([['mba','bba','mca'],['btech','mtech','ds']])
+    const [branches,setBranches] = useState<Array<Array<string>>>([])
     const [open,setOpen] = useState(false)
     const [brc,setBRC] = useState<branches>()
     const [didRun,setDidRun] = useState(false)
@@ -32,6 +32,24 @@ const Branches = () =>{
         res=>{
            setBRC(res.data)
            console.log("branches rec : "+brc?.branch[0].branch)
+           var list:string[] = []
+           if (brc?.branch.length !== undefined)
+           if (brc?.branch.length > 3){
+           brc.branch.forEach(branch=>{
+             
+               if (list.length < 3){
+                   list.push(branch.branch)
+               }else {
+                   branches.push(list)
+                   list = [] //refresh
+               }
+           })
+        }else {
+           brc.branch.forEach(branch=>{
+               list.push(branch.branch)
+           })
+           branches.push(list)
+        }
            setDidRun(true)
         }
     ).catch(exp=>{
@@ -52,20 +70,23 @@ const Branches = () =>{
             console.log("error branches : "+ error)
         }).then(res=>{
     
-            var last:string[] = []
-            for (var i = 0 ; i < branches.length ; i++ ){
-             last = branches[i]
+            // var last:string[] = []
+            // if (branches !== undefined)
+            // for (var i = 0 ; i < branches.length ; i++ ){
+            //  last = branches[i]
         
-            }
-            if (last.length >= 3){
-                branches.push([branch])
-            }else {
-               branches[i].push(branch)
-            }
+            // }
+            // if (last.length >= 3){
+            //     branches.push([branch])
+            // }else {
+            //    branches[i].push(branch)
+            // }
+
             setOpen(!open)
             setBranch('')
             setsems('')
             setyear('')
+            setDidRun(false)
             console.log("branch res : "+ res)
         
         })
