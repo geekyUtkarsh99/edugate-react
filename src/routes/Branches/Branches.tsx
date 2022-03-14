@@ -58,7 +58,7 @@ const Branches = () =>{
             console.log("axios error : " + exp)
             setDidRun(true)
         })
-    },[])
+    })
 
     // if (!didRun)
    
@@ -67,6 +67,7 @@ const Branches = () =>{
         axios.get<branches>('http://64.227.161.183/getbranch').then(
             res=>{
                setBRC(res.data)
+               setBranches([])
                console.log("branches rec : "+brc?.branch[0].branch)
                var list:string[] = []
                if (brc?.branch.length !== undefined)
