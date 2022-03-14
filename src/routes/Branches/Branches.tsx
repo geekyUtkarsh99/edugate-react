@@ -4,23 +4,45 @@ import { Row,Col } from "react-bootstrap";
 import axios from "axios";
 import { listenerCount } from "process";
 
+interface single{
+    branch:string;
+    sem:string;
+    year:string
+}
+
+interface branches{
+    branch:Array<single>;
+    status:number;
+}
+
 
 const Branches = () =>{
 
     const [branches,setBranches] = useState([['mba','bba','mca'],['btech','mtech','ds']])
     const [open,setOpen] = useState(false)
+    const [brc,setBRC] = useState<branches>()
 
     const [branch,setBranch] = useState('')
-    const [yors,setsems] = useState('')
+    const [sem,setsems] = useState('')
     const [year,setyear] = useState('')
 
-    const addNewBranch = ()=>{
+    axios.get<branches>('http://64.227.161.183/getbranch').then(
+        res=>{
+           setBRC(res.data)
+           console.log("branches rec : "+brc)
+        }
+    ).catch(exp=>{
+        console.log("axios error : " + exp)
+    })
 
-        if (branch !== "" && yors !== '')
+    const addNewBranch = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>)=>{
+
+        if (branch !== "" && sem !== '' && year !== '')
         axios.get('http://64.227.161.183/addbranch',{
             params:{
                 branch:branch, //branch
-                sem:yors      //sem
+                sem:sem,       //sem
+                year:year      //year
             }
         }).catch(error=>{
             console.log("error branches : "+ error)
@@ -39,6 +61,7 @@ const Branches = () =>{
             setOpen(!open)
             setBranch('')
             setsems('')
+            setyear('')
             console.log("branch res : "+ res)
         
         })
@@ -80,7 +103,7 @@ const Branches = () =>{
                    <input className="edittext" type="number" onChange={(e)=>{setyear(e.target.value)}}></input>
 
 
-                <button className="butn" onClick={()=>{addNewBranch()}}>Submit</button>
+                <button className="butn" onClick={(e)=>{addNewBranch(e)}}>Submit</button>
 
                </div>
 
