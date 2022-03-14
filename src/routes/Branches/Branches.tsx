@@ -27,8 +27,12 @@ const Branches = () =>{
     const [sem,setsems] = useState('')
     const [year,setyear] = useState('')
 
-    useEffect(()=>{
-        if (!didRun)
+    // useEffect(()=>{
+        
+    //     return ()=>{setDidRun(true)}
+    // },[])
+
+    if (!didRun)
         axios.get<branches>('http://64.227.161.183/getbranch').then(
             res=>{
                setBRC(res.data)
@@ -59,9 +63,6 @@ const Branches = () =>{
             console.log("axios error : " + exp)
             setDidRun(true)
         })
-
-        return ()=>{setDidRun(true)}
-    },[])
 
 
     const refresh =()=>{
