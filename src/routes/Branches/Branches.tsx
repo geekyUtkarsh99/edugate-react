@@ -28,6 +28,7 @@ const Branches = () =>{
     const [year,setyear] = useState('')
 
     useEffect(()=>{
+        if (!didRun)
         axios.get<branches>('http://64.227.161.183/getbranch').then(
             res=>{
                setBRC(res.data)
@@ -60,8 +61,7 @@ const Branches = () =>{
         })
     })
 
-    // if (!didRun)
-   
+    
 
     const refresh =()=>{
         axios.get<branches>('http://64.227.161.183/getbranch').then(
