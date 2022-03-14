@@ -79,7 +79,7 @@ const Branches = () =>{
                    if (list.length < 3){
                        list.push(branch.branch)
                    }else {
-                       setBranches(old =>[...old,list])
+                    branches.push(list)
                        list = [] //refresh
                    }
                })
@@ -87,7 +87,7 @@ const Branches = () =>{
                brc.branch.forEach(branch=>{
                    list.push(branch.branch)
                })
-               setBranches(old =>[...old,list])
+               branches.push(list)
             }
                setDidRun(true)
             }
