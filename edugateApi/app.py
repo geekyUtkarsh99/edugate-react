@@ -96,7 +96,7 @@ def get_notes():
 @app.route('/addbranch', methods=['GET'])
 def add_branch():
     args = request.args
-    response = mysql.add_branches(args['branch'], args['sem'],args['year'])
+    response = mysql.add_branches(str(args['branch']).upper(), args['sem'],args['year'])
     if response:
         return make_response(jsonify({'message': 'added'})), 201
     else:
