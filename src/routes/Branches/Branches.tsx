@@ -59,9 +59,10 @@ const Branches = () =>{
             console.log("axios error : " + exp)
             setDidRun(true)
         })
-    })
 
-    
+        return ()=>{setDidRun(true)}
+    },[])
+
 
     const refresh =()=>{
         axios.get<branches>('http://64.227.161.183/getbranch').then(
