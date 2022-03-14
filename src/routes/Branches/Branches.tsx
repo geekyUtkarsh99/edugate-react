@@ -31,7 +31,7 @@ const Branches = () =>{
     axios.get<branches>('http://64.227.161.183/getbranch').then(
         res=>{
            setBRC(res.data)
-           console.log("branches rec : "+brc)
+           console.log("branches rec : "+brc?.branch[0].branch)
            setDidRun(true)
         }
     ).catch(exp=>{
